@@ -2,12 +2,18 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Login from './pages/Login/Login';
 import Signup from './pages/signup/Signup';
+import TitlePage from './pages/titlePage/TitlePage';
 const Stack = createNativeStackNavigator();
 const App = () => {
   return (
     <>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen
+            name="TitlePage"
+            component={TitlePage}
+            options={{headerShown: false}}
+          />
           <Stack.Screen
             name="Login"
             component={Login}

@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
   mainText: {
     fontSize: width * 0.08, // Use percentage of screen width
     fontWeight: 'bold',
-    color: '#4058e3',
+    color: '#0975b0',
   },
   subText: {
     fontSize: width * 0.05,
@@ -80,8 +80,8 @@ const styles = StyleSheet.create({
     marginVertical: height * 0.05,
   },
   input: {
-    borderColor: 'black',
-    borderWidth: 1,
+    borderColor: '#0b94de',
+    borderWidth: 1.6,
     paddingHorizontal: width * 0.04,
     marginBottom: height * 0.02,
     fontSize: width * 0.04,
@@ -95,11 +95,11 @@ const styles = StyleSheet.create({
   btnText: {
     borderRadius: 30,
     paddingVertical: height * 0.015,
-    paddingHorizontal: width * 0.1,
-    backgroundColor: '#4058e3',
+    paddingHorizontal: width * 0.08,
+    backgroundColor: '#0975b0',
     fontSize: width * 0.05,
     color: 'white',
-    borderColor: 'blue',
+    borderColor: '#0975b0',
     borderWidth: 1,
   },
   pageNavigateText: {
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
   SignupPageNavigateTxt: {
     fontSize: width * 0.04,
     marginHorizontal: 3,
-    color: '#4058e3',
+    color: '#0975b0',
     fontWeight: '700',
   },
 });
