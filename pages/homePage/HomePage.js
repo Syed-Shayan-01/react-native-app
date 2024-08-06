@@ -241,8 +241,90 @@ const books = [
 
 const HomePage = () => {
   return (
-    <ScrollView>
-      <View style={styles.navbar}>
+    <>
+      <View style={{flex: 1}}>
+        <FlatList
+          data={[1, 1]}
+          renderItem={({item, index}) => {
+            return (
+              <View>
+                {index === 0 && (
+                  <>
+                    <View style={styles.navbar}>
+                      <Text>
+                        <IonIcon name="menu-outline" style={styles.menuicon} />
+                      </Text>
+                      <Text style={styles.homeTxt}>Home Page</Text>
+                      <Text style={styles.userIcon}>
+                        <FeatherIcon name="user" style={styles.userIcon} />
+                      </Text>
+                    </View>
+                    <View style={styles.inputContainer}>
+                      <SafeAreaView>
+                        <View style={styles.inputWrapper}>
+                          <Icon
+                            name="search"
+                            size={20}
+                            color="#a0a0a0"
+                            style={styles.icon}
+                          />
+                          <TextInput
+                            style={styles.input}
+                            placeholder="Search..."
+                            placeholderTextColor="#a0a0a0"
+                          />
+                        </View>
+                      </SafeAreaView>
+                    </View>
+                    <View>
+                      <Text style={styles.textRecommend}>
+                        Recommended for You
+                      </Text>
+                      <FlatList
+                        data={books}
+                        renderItem={() => (
+                          <View
+                            style={{
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              flex: 1,
+                              backgroundColor: '#f5f5f5',
+                            }}>
+                            <Image
+                              style={{
+                                elevation: 20,
+                                width: width * 0.4,
+                                height: height * 0.25,
+                                borderRadius: 5,
+                                margin: Math.min(width, height) * 0.03,
+                              }}
+                              source={require('../../public/images/image.jpg')}
+                            />
+                          </View>
+                        )}
+                        keyExtractor={item => item.id.toString()}
+                        horizontal
+                      />
+                    </View>
+                  </>
+                )}
+                {index === 1 && (
+                  <View>
+                    <Text style={styles.textRecommend}>Popular Books</Text>
+                    <FlatList
+                      data={books}
+                      renderItem={({item}) => <BookCard book={item} />}
+                      keyExtractor={item => item.id.toString()}
+                      showsHorizontalScrollIndicator={false}
+                    />
+                  </View>
+                )}
+              </View>
+            );
+          }}
+        />
+      </View>
+      {/* <View style={styles.navbar}>
         <Text>
           <IonIcon name="menu-outline" style={styles.menuicon} />
         </Text>
@@ -288,7 +370,8 @@ const HomePage = () => {
             </View>
           )}
           keyExtractor={item => item.id.toString()}
-          horizontal={true}
+          horizontal
+          showsHorizontalScrollIndicator={false}
         />
       </View>
       <View>
@@ -297,14 +380,17 @@ const HomePage = () => {
           data={books}
           renderItem={({item}) => <BookCard book={item} />}
           keyExtractor={item => item.id.toString()}
-          horizontal={false}
+          showsHorizontalScrollIndicator={false}
         />
-      </View>
-    </ScrollView>
+      </View> */}
+    </>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   navbar: {
     flexDirection: 'row',
     justifyContent: 'space-between',

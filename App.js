@@ -4,12 +4,18 @@ import Login from './pages/Login/Login';
 import Signup from './pages/signup/Signup';
 import TitlePage from './pages/titlePage/TitlePage';
 import HomePage from './pages/homePage/HomePage';
+import BuyPage from './pages/buyPage/BuyPage';
 const Stack = createNativeStackNavigator();
 const App = () => {
   return (
     <>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
+        <Stack.Navigator>
+          <Stack.Screen
+            name="BuyPage"
+            component={BuyPage}
+            options={{headerShown: false}}
+          />
           <Stack.Screen
             name="TitlePage"
             component={TitlePage}
