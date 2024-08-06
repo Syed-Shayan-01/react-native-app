@@ -10,13 +10,11 @@ import {
   Dimensions,
   FlatList,
 } from 'react-native';
-
+import IonIcon from 'react-native-vector-icons/Ionicons';
+import FeatherIcon from 'react-native-vector-icons/Feather';
 const {width, height} = Dimensions.get('window');
 
 const BuyPage = () => {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
-
   const Data = [
     {
       imageUrl: 'https://m.media-amazon.com/images/I/813aV273-rL._SY466_.jpg',
@@ -26,82 +24,43 @@ const BuyPage = () => {
     },
   ];
 
-  //   const renderItem = ({item}) => (
-  //     <>
-  //       <Image source={{uri: item.imageUrl}} style={styles.itemsImage} />
-
-  //       {/* <TouchableOpacity
-  //         style={styles.detailsButton}
-  //         onPress={() => {
-  //           setSelectedItem(item);
-  //           setModalVisible(true);
-  //         }}> */}
-  //         <Text style={styles.detailsButtonText}>View Details</Text>
-  //       </TouchableOpacity>
-  //     </>
-  //   );
-
   return (
     <ScrollView style={styles.container}>
-      <Image source={{uri: 'https://m.media-amazon.com/images/I/813aV273-rL._SY466_.jpg'}} style={styles.modalImage} />
-      <FlatList
-        data={Data}
-        renderItem={({item}) => {
-          return (
-            <View style={styles.modalContainer}>
-              <View style={styles.modalContent}>
-                <Text style={styles.modalTitle}>{item.title}</Text>
-                <Text style={styles.modalDescription}>{item.description}</Text>
-                <Text style={styles.modalPrice}>${item.price}</Text>
+      <View style={styles.navbar}>
+        <Text>
+          <IonIcon name="arrow-back" style={styles.menuicon} />
+        </Text>
+        <Text style={styles.userIcon}>
+          <IonIcon name="share-social" style={styles.userIcon} />
+        </Text>
+      </View>
+      <View>
+        <Image
+          style={styles.image}
+          source={require('../../public/images/apple.jpg')}
+        />
+      </View>
 
-                <View style={styles.buttonContainer}>
-                  <TouchableOpacity style={styles.buyButton}>
-                    <Text style={styles.buttonText}>Buy Now</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.addToCartButton}>
-                    <Text style={styles.buttonText}>Add to Cart</Text>
-                  </TouchableOpacity>
-                </View>
-
-                <TouchableOpacity
-                  style={styles.closeButton}
-                  onPress={() => setModalVisible(false)}>
-                  <Text style={styles.closeButtonText}>Close</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          );
-        }}
-        keyExtractor={(item, index) => index.toString()}
-      />
-      {/* <View style={styles.modalContainer}>
-            <View style={styles.modalContent}>
-              <Image
-                source={{uri: selectedItem.imageUrl}}
-                style={styles.modalImage}
-              />
-              <Text style={styles.modalTitle}>{selectedItem.title}</Text>
-              <Text style={styles.modalDescription}>
-                {selectedItem.description}
-              </Text>
-              <Text style={styles.modalPrice}>${selectedItem.price}</Text>
-
-              <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.buyButton}>
-                  <Text style={styles.buttonText}>Buy Now</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.addToCartButton}>
-                  <Text style={styles.buttonText}>Add to Cart</Text>
-                </TouchableOpacity>
-              </View>
-
-              <TouchableOpacity
-                style={styles.closeButton}
-                onPress={() => setModalVisible(false)}>
-                <Text style={styles.closeButtonText}>Close</Text>
-              </TouchableOpacity>
-            </View>
-          </View> */}
+      <View
+        style={{
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
+          backgroundColor : 'gray',
+          height: height * 1,
+          paddingTop: 20,
+          zIndex: 999
+        }}>
+        <View style={styles.textTitleContain}>
+          <Text style={styles.title}>Item Name</Text>
+          <Text style={styles.price}>$99.99</Text>
+        </View>
+        <Text style={styles.description}>
+          This is a detailed description of the item. Lorem ipsum dolor sit
+          amet, consectetur adipiscing elit. Sed vel libero vel erat feugiat
+          semper. Nullam faucibus, justo vel tristique malesuada, urna libero
+          vestibulum justo,
+        </Text>
+      </View>
     </ScrollView>
   );
 };
@@ -111,90 +70,54 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
-//   itemsImage: {
-//     width: '100%',
-//     height: 300,
-//     resizeMode: 'cover',
-//   },
-//   detailsButton: {
-//     backgroundColor: '#3498db',
-//     padding: 15,
-//     margin: 20,
-//     borderRadius: 10,
-//     alignItems: 'center',
-//   },
-//   detailsButtonText: {
-//     color: 'white',
-//     fontSize: 18,
-//     fontWeight: 'bold',
-//   },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  modalContent: {
-    backgroundColor: 'white',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    padding: 20,
-    zIndex: 1,
-    alignItems: 'center',
-  },
-  modalImage: {
-    width: 180, // Fixed width
-    height: 250, // Fixed height
-    resizeMode: 'cover',
-    zIndex: -111,
-    alignSelf: 'center'
-  },
-  modalTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  modalDescription: {
-    fontSize: 16,
-    marginBottom: 10,
-    textAlign: 'center',
-  },
-  modalPrice: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#2ecc71',
-    marginBottom: 20,
-  },
-  buttonContainer: {
+  navbar: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '100%',
-    marginBottom: 20,
-  },
-  buyButton: {
-    backgroundColor: '#2ecc71',
-    padding: 15,
-    borderRadius: 10,
-    width: '48%',
+    paddingHorizontal: width * 0.03,
+    paddingVertical: height * 0.01,
     alignItems: 'center',
   },
-  addToCartButton: {
-    backgroundColor: '#3498db',
-    padding: 15,
-    borderRadius: 10,
-    width: '48%',
+  menuicon: {
+    fontSize: 30,
+    color: 'black',
+  },
+  userIcon: {
+    fontSize: 25,
+    padding: 6,
+    borderRadius: 100,
+    color: 'black',
+  },
+  image: {
+    width: width,
+    height: height * 0.45,
+    alignSelf: 'center',
+    resizeMode: 'cover',
+    position: 'relative',
+
+  },
+  textTitleContain: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
   },
-  buttonText: {
-    color: 'white',
-    fontSize: 16,
+  title: {
+    fontSize: 22,
     fontWeight: 'bold',
+    color: 'black',
+    marginHorizontal: width * 0.04,
   },
-  closeButton: {
-    marginTop: 10,
+  price: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#0b94de',
+    marginHorizontal: width * 0.04,
   },
-  closeButtonText: {
-    color: '#7f8c8d',
-    fontSize: 16,
+  description: {
+    fontSize: Math.min(width, height) * 0.04,
+    marginVertical: height * 0.02,
+    textAlign: 'justify',
+    color: '#5e5e5e',
+    marginHorizontal: width * 0.04,
   },
 });
 
