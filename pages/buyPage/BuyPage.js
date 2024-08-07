@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import FeatherIcon from 'react-native-vector-icons/Feather';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 const {width, height} = Dimensions.get('window');
 
 const BuyPage = () => {
@@ -45,10 +46,8 @@ const BuyPage = () => {
         style={{
           borderTopLeftRadius: 20,
           borderTopRightRadius: 20,
-          backgroundColor : 'gray',
-          height: height * 1,
           paddingTop: 20,
-          zIndex: 999
+          zIndex: 999,
         }}>
         <View style={styles.textTitleContain}>
           <Text style={styles.title}>Item Name</Text>
@@ -60,6 +59,37 @@ const BuyPage = () => {
           semper. Nullam faucibus, justo vel tristique malesuada, urna libero
           vestibulum justo,
         </Text>
+        <View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              borderTopWidth: 1,
+              color: 'black',
+              padding: Math.min(width, height) * 0.04,
+            }}>
+            <Text>Shipping info</Text>
+            <Text>
+              <AntDesign name="right" />
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              borderTopWidth: 1,
+              borderBottomWidth: 1,
+              color: 'black',
+              padding: Math.min(width, height) * 0.04,
+            }}>
+            <Text>Support</Text>
+            <Text>
+              <AntDesign name="right" />
+            </Text>
+          </View>
+        </View>
       </View>
     </ScrollView>
   );
@@ -93,7 +123,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     resizeMode: 'cover',
     position: 'relative',
-
   },
   textTitleContain: {
     flexDirection: 'row',
@@ -107,9 +136,9 @@ const styles = StyleSheet.create({
     marginHorizontal: width * 0.04,
   },
   price: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
-    color: '#0b94de',
+    color: 'black',
     marginHorizontal: width * 0.04,
   },
   description: {
