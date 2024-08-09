@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import {View, StyleSheet, Animated, Dimensions} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Icon from 'react-native-vector-icons/Ionicons'; // You may need to install this package
-import AntIcon from 'react-native-vector-icons/AntDesign';
+import Icon from 'react-native-vector-icons/Ionicons';
 import Login from './pages/Login/Login';
 import Signup from './pages/signup/Signup';
 import TitlePage from './pages/titlePage/TitlePage';
@@ -13,6 +13,30 @@ import Profile from './pages/profile/Profile';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+const {height, width} = Dimensions.get('window')
+const TabBarIcon = ({focused, color, size, name}) => {
+  const animatedValue = new Animated.Value(1);
+
+  if (focused) {
+    Animated.spring(animatedValue, {
+      toValue: 1.2,
+      friction: 2,
+      useNativeDriver: true,
+    }).start();
+  } else {
+    Animated.spring(animatedValue, {
+      toValue: 1,
+      friction: 3,
+      useNativeDriver: true,
+    }).start();
+  }
+
+  return (
+    <Animated.View style={{transform: [{scale: animatedValue}]}}>
+      <Icon name={name} size={size} color={color} />
+    </Animated.View>
+  );
+};
 
 const TabNavigator = () => {
   return (
@@ -20,25 +44,27 @@ const TabNavigator = () => {
       screenOptions={({route}) => ({
         tabBarIcon: ({focused, color, size}) => {
           let iconName;
-
           if (route.name === 'Home') {
             iconName = focused ? 'home' : 'home-outline';
           } else if (route.name === 'Cart') {
             iconName = focused ? 'cart' : 'cart-outline';
-          } else if (route.name === 'profile') {
+          } else if (route.name === 'Profile') {
             iconName = focused ? 'person' : 'person-outline';
           }
-
-          // Return the appropriate icon component
           return (
-            <>
-              <Icon name={iconName} size={size} color={color} />
-            </>
+            <TabBarIcon
+              focused={focused}
+              color={color}
+              size={size}
+              name={iconName}
+            />
           );
         },
-        tabBarActiveTintColor: '#0975b0',
-        tabBarInactiveTintColor: '#666666',
-        tabBarActiveBackgroundColor: '#d7f0fc',
+        // tabBarActiveTintColor: '#0975b0',
+        // tabBarInactiveTintColor: '#666666',
+        tabBarStyle: styles.tabBar,
+        tabBarItemStyle: styles.tabBarItem,
+        tabBarLabelStyle: styles.tabBarLabel,
       })}>
       <Tab.Screen
         name="Home"
@@ -51,13 +77,14 @@ const TabNavigator = () => {
         options={{headerShown: false}}
       />
       <Tab.Screen
-        name="profile"
+        name="Profile"
         component={Profile}
         options={{headerShown: false}}
       />
     </Tab.Navigator>
   );
 };
+
 // Main App component
 const App = () => {
   return (
@@ -83,14 +110,29 @@ const App = () => {
           component={TabNavigator}
           options={{headerShown: false}}
         />
-        {/* <Stack.Screen
-          name="BuyPage"
-          component={BuyPage}
-          options={{headerShown: false}}
-        /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
+
+const styles = StyleSheet.create({
+  tabBar: {
+    backgroundColor: '#ffffff',
+    borderTopWidth: 0,
+    elevation: 8,
+    height: 60,
+    paddingBottom: 5,
+    marginVertical: height * 0.01,
+    marginHorizontal: width * 0.01,
+    borderRadius: 10
+  },
+  tabBarItem: {
+    paddingTop: 5,
+  },
+  tabBarLabel: {
+    fontSize: 12,
+    fontWeight: '600',
+  },
+});
 
 export default App;
