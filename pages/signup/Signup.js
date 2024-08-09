@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {
   ScrollView,
   StyleSheet,
@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 
 // Get the screen dimensions
-const { width, height } = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
 const Signup = () => {
   const navigation = useNavigation();
@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
     fontSize: width * 0.05,
     fontWeight: '600',
     letterSpacing: 1.5,
+    color: '#666666',
   },
   inputMain: {
     marginVertical: height * 0.05,
@@ -86,7 +87,7 @@ const styles = StyleSheet.create({
     marginBottom: height * 0.02,
     fontSize: width * 0.04,
     borderRadius: 12,
-    color: '#6b6a6a',
+    color: '#666666',
   },
   button: {
     alignItems: 'flex-end',
@@ -110,7 +111,7 @@ const styles = StyleSheet.create({
   },
   AccountOrNot: {
     fontSize: width * 0.04,
-    color: '#6b6a6a',
+    color: '#666666',
   },
   SignupPageNavigateTxt: {
     fontSize: width * 0.04,

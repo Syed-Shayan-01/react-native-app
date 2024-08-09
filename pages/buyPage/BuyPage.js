@@ -65,12 +65,13 @@ const BuyPage = () => {
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
-              borderTopWidth: 1,
-              color: 'black',
+              borderTopWidth: 1.2,
+              color: '#333333',
+              borderColor: '#666666',
               padding: Math.min(width, height) * 0.04,
             }}>
-            <Text>Shipping info</Text>
-            <Text>
+            <Text style={{color: '#333333'}}>Shipping info</Text>
+            <Text style={{color: '#333333'}}>
               <AntDesign name="right" />
             </Text>
           </View>
@@ -79,13 +80,14 @@ const BuyPage = () => {
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
-              borderTopWidth: 1,
+              borderTopWidth: 1.2,
               borderBottomWidth: 1,
-              color: 'black',
+              color: '#333333',
+              borderColor: '#666666',
               padding: Math.min(width, height) * 0.04,
             }}>
-            <Text>Support</Text>
-            <Text>
+            <Text style={{color: '#333333'}}>Support</Text>
+            <Text style={{color: '#333333'}}>
               <AntDesign name="right" />
             </Text>
           </View>
@@ -109,13 +111,13 @@ const styles = StyleSheet.create({
   },
   menuicon: {
     fontSize: 30,
-    color: 'black',
+    color: '#666666',
   },
   userIcon: {
     fontSize: 25,
     padding: 6,
     borderRadius: 100,
-    color: 'black',
+    color: '#666666',
   },
   image: {
     width: width,
@@ -132,20 +134,20 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: 'black',
+    color: '#333333',
     marginHorizontal: width * 0.04,
   },
   price: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: 'black',
+    color: '#333333',
     marginHorizontal: width * 0.04,
   },
   description: {
     fontSize: Math.min(width, height) * 0.04,
     marginVertical: height * 0.02,
     textAlign: 'justify',
-    color: '#5e5e5e',
+    color: '#666666',
     marginHorizontal: width * 0.04,
   },
 });

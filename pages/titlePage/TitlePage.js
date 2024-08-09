@@ -214,7 +214,6 @@ const styles = StyleSheet.create({
     width: width * 1,
     height: height * 0.4,
     resizeMode: 'contain',
-    // marginBottom: height * 0.05,
   },
   title: {
     fontSize: Math.min(width, height) * 0.06,

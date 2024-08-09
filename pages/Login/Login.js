@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
     fontSize: width * 0.05,
     fontWeight: '600',
     letterSpacing: 1.5,
+    color: '#666666',
   },
   inputMain: {
     marginVertical: height * 0.05,
@@ -84,7 +85,7 @@ const styles = StyleSheet.create({
     marginVertical: height * 0.01,
     fontSize: width * 0.04,
     borderRadius: 12,
-    color: '#6b6a6a',
+    color: '#666666',
   },
   button: {
     justifyContent: 'center',
@@ -117,7 +118,7 @@ const styles = StyleSheet.create({
   },
   AccountOrNot: {
     fontSize: width * 0.04,
-    color: '#6b6a6a',
+    color: '#666666',
   },
   SignupPageNavigateTxt: {
     fontSize: width * 0.04,

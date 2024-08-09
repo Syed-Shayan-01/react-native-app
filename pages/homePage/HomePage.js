@@ -109,7 +109,7 @@
 //   homeTxt: {
 //     fontSize: 20,
 //     fontWeight: 'bold',
-//     color: '#5e5e5e',
+//     color: '#333333',
 //   },
 //   userIcon: {
 //     fontSize: 25,
@@ -150,7 +150,7 @@
 //     fontWeight: 'bold',
 //     marginHorizontal: width * 0.06,
 //     marginVertical: height * 0.03,
-//     color: '#5e5e5e',
+//     color: '#333333',
 //   },
 //   list: {
 //     backgroundColor: 'pink',
@@ -400,12 +400,12 @@ const styles = StyleSheet.create({
   },
   menuicon: {
     fontSize: 30,
-    color: 'black',
+    color: '#666666',
   },
   homeTxt: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#5e5e5e',
+    color: '#333333',
   },
   userIcon: {
     fontSize: 25,
@@ -440,13 +440,14 @@ const styles = StyleSheet.create({
     right: 10,
     fontSize: 22,
     fontStyle: 'normal',
+    color: '#666666'
   },
   textRecommend: {
     fontSize: 22,
     fontWeight: 'bold',
     marginHorizontal: width * 0.06,
     marginVertical: height * 0.03,
-    color: '#5e5e5e',
+    color: '#333333',
   },
   card: {
     flexDirection: 'row',
@@ -475,14 +476,15 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     fontWeight: 'bold',
+    color:'#666666'
   },
   author: {
     fontSize: 14,
-    color: 'gray',
+    color: '#666666',
   },
   rating: {
     fontSize: 12,
-    color: 'gray',
+    color: '#666666',
   },
   price: {
     fontSize: 16,
