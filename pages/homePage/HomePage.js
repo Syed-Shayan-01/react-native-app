@@ -310,7 +310,7 @@ const HomePage = () => {
                 )}
                 {index === 1 && (
                   <View>
-                    <Text style={styles.textRecommend}>Popular Books</Text>
+                    <Text style={styles.textRecommend}>Popular Items</Text>
                     <FlatList
                       data={books}
                       renderItem={({item}) => <BookCard book={item} />}
@@ -462,11 +462,10 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   image: {
-    width: width * 0.2,
+    width: width * 0.25,
     height: height * 0.19,
-    backgroundColor: 'gray', // Placeholder color
+    backgroundColor: 'gray', 
     alignSelf: 'center',
-    marginHorizontal: width * 0.02,
   },
   details: {
     flex: 1,
