@@ -12,7 +12,9 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 
 const {width, height} = Dimensions.get('window');
-const Data = [
+
+// Initial data with quantity field
+const initialData = [
   {
     id: 1,
     image: require('../../public/images/apple.jpg'),
@@ -34,7 +36,7 @@ const Data = [
   {
     id: 3,
     image: require('../../public/images/apple.jpg'),
-    title: 'Pullover',
+    title: 'headPhone',
     color: 'Red',
     size: 'L',
     quantity: 1,
@@ -43,24 +45,77 @@ const Data = [
   {
     id: 4,
     image: require('../../public/images/apple.jpg'),
-    title: 'Pullover',
-    color: 'Red',
+    title: 'handfree',
+    color: 'Black',
     size: 'L',
     quantity: 1,
     price: 15.99,
   },
 ];
-const ProductCard = () => {
-  const [number, setnumber] = useState(1);
 
-  const handleChangeNumberPlus = () => {
-    setnumber(prev => prev + 1);
+const ProductCard = () => {
+  const [data, setData] = useState(initialData);
+
+  const handleChangeNumberPlus = id => {
+    setData(prevData =>
+      prevData.map(item =>
+        item.id === id ? {...item, quantity: item.quantity + 1} : item,
+      ),
+    );
   };
-  const handleChangeNumberMinus = () => {
-    if (number > 1) {
-      setnumber(prev => prev - 1);
-    }
+
+  const handleChangeNumberMinus = id => {
+    setData(prevData =>
+      prevData.map(item =>
+        item.id === id && item.quantity >= 1
+          ? {...item, quantity: item.quantity - 1}
+          : item,
+      ),
+    );
   };
+
+  const renderItem = ({item}) => {
+    return (
+      <View style={styles.container}>
+        <View style={styles.imageContainer}>
+          <Image source={item.image} style={styles.image} />
+        </View>
+        <View style={styles.detailsContainer}>
+          <EntypoIcon name={'dots-three-vertical'} style={styles.optionsIcon} />
+          <Text style={styles.title}>{item.title}</Text>
+          <View style={styles.colorSizeContainer}>
+            <Text>
+              <Text style={styles.labelText}>Color:</Text>
+              <Text style={styles.valueText}>{item.color}</Text>
+            </Text>
+            <Text style={styles.colorSizeText}>
+              <Text style={styles.labelText}>Size:</Text>
+              <Text style={styles.valueText}>{item.size}</Text>
+            </Text>
+          </View>
+          <View style={styles.quantityPriceContainer}>
+            <View style={styles.quantityContainer}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => handleChangeNumberMinus(item.id)}>
+                <Text style={styles.buttonText}>-</Text>
+              </TouchableOpacity>
+              <Text style={styles.quantity}>{item.quantity}</Text>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => handleChangeNumberPlus(item.id)}>
+                <Text style={styles.buttonText}>+</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.priceContainer}>
+              <Text style={styles.price}>{item.price * item.quantity}$</Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    );
+  };
+
   return (
     <>
       <View style={styles.navbar}>
@@ -73,56 +128,20 @@ const ProductCard = () => {
         </Text>
       </View>
       <FlatList
-        data={Data}
-        keyExtractor={Data.id}
-        renderItem={() => {
-          return (
-            <View style={styles.container}>
-              <View style={styles.imageContainer}>
-                <Image
-                  source={require('../../public/images/apple.jpg')}
-                  style={styles.image}
-                />
-              </View>
-              <View style={styles.detailsContainer}>
-                <EntypoIcon
-                  name={'dots-three-vertical'}
-                  style={styles.optionsIcon}
-                />
-                <Text style={styles.title}>Pullover</Text>
-                <View style={styles.colorSizeContainer}>
-                  <Text>
-                    <Text style={styles.labelText}>Color:</Text>
-                    <Text style={styles.valueText}>Red</Text>
-                  </Text>
-                  <Text style={styles.colorSizeText}>
-                    <Text style={styles.labelText}>Size:</Text>
-                    <Text style={styles.valueText}>L</Text>
-                  </Text>
-                </View>
-                <View style={styles.quantityPriceContainer}>
-                  <View style={styles.quantityContainer}>
-                    <TouchableOpacity
-                      style={styles.button}
-                      onPress={handleChangeNumberMinus}>
-                      <Text style={styles.buttonText}>-</Text>
-                    </TouchableOpacity>
-                    <Text style={styles.quantity}>{number}</Text>
-                    <TouchableOpacity
-                      style={styles.button}
-                      onPress={handleChangeNumberPlus}>
-                      <Text style={styles.buttonText}>+</Text>
-                    </TouchableOpacity>
-                  </View>
-                  <View style={styles.priceContainer}>
-                    <Text style={styles.price}>51$</Text>
-                  </View>
-                </View>
-              </View>
-            </View>
-          );
-        }}
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={item => item.id.toString()}
       />
+
+      <View>
+        <TouchableOpacity style={styles.checkoutButton}>
+          <Text style={styles.checkoutText}>Checkout</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.totalContainer}>
+          <Text style={styles.totalLabelText}>Total Amount:</Text>
+          <Text style={styles.totalValueText}> $15.99</Text>
+        </TouchableOpacity>
+      </View>
     </>
   );
 };
@@ -234,6 +253,38 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  checkoutButton: {
+    backgroundColor: '#0975b0',
+    padding: Math.min(width, height) * 0.045,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: width * 0.03,
+    marginTop: height * 0.02,
+  },
+  checkoutText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: 'white',
+  },
+  totalContainer: {
+    backgroundColor: '#f5f5f5',
+    // padding: Math.min(width, height) * 0.05,
+    borderRadius: 8,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginVertical:  height * 0.004,
+    marginHorizontal: width * 0.02
+  },
+  totalLabelText: {
+    fontSize: Math.min(width, height) * 0.05,
+    color: '#666666',
+  },
+  totalValueText: {
+    fontSize: Math.min(width, height) * 0.05,
+    fontWeight: '700',
   },
 });
 
