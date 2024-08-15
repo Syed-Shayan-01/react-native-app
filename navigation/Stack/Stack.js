@@ -4,13 +4,14 @@ import TabNavigator from '../Tab/Tab';
 import TitlePage from '../../pages/titlePage/TitlePage';
 import Login from '../../pages/Login/Login';
 import Signup from '../../pages/signup/Signup';
+import BuyPage from '../../pages/buyPage/BuyPage';
 
 const Stack = createNativeStackNavigator();
 
 const StackNavigator = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='Tabs'>
+      <Stack.Navigator initialRouteName="Tabs">
         <Stack.Screen
           name="TitlePage"
           component={TitlePage}
@@ -24,6 +25,11 @@ const StackNavigator = () => {
         <Stack.Screen
           name="Signup"
           component={Signup}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="BuyPage"
+          component={BuyPage}
           options={{headerShown: false}}
         />
         <Stack.Screen

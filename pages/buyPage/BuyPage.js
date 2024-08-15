@@ -13,9 +13,12 @@ import {
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {useRoute} from '@react-navigation/native';
 const {width, height} = Dimensions.get('window');
 
 const BuyPage = () => {
+  const {params} = useRoute();
+  
   const Data = [
     {
       imageUrl: 'https://m.media-amazon.com/images/I/813aV273-rL._SY466_.jpg',
@@ -36,10 +39,7 @@ const BuyPage = () => {
         </Text>
       </View>
       <View>
-        <Image
-          style={styles.image}
-          source={require('../../public/images/apple.jpg')}
-        />
+        <Image style={styles.image} source={{uri: params?.item?.image}} />
       </View>
 
       <View
@@ -50,15 +50,10 @@ const BuyPage = () => {
           zIndex: 999,
         }}>
         <View style={styles.textTitleContain}>
-          <Text style={styles.title}>Item Name</Text>
-          <Text style={styles.price}>$99.99</Text>
+          <Text style={styles.title}>{params?.item?.title}</Text>
+          <Text style={styles.price}>${params?.item?.price}</Text>
         </View>
-        <Text style={styles.description}>
-          This is a detailed description of the item. Lorem ipsum dolor sit
-          amet, consectetur adipiscing elit. Sed vel libero vel erat feugiat
-          semper. Nullam faucibus, justo vel tristique malesuada, urna libero
-          vestibulum justo,
-        </Text>
+        <Text style={styles.description}>{params?.item?.description}</Text>
         <View>
           <View
             style={{
@@ -123,19 +118,19 @@ const styles = StyleSheet.create({
     width: width,
     height: height * 0.45,
     alignSelf: 'center',
-    resizeMode: 'cover',
+    resizeMode: 'center',
     position: 'relative',
   },
   textTitleContain: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
   },
   title: {
     fontSize: 22,
     fontWeight: 'bold',
     color: '#333333',
     marginHorizontal: width * 0.04,
+    width: width * 0.7,
   },
   price: {
     fontSize: 20,

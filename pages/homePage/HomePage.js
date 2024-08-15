@@ -17,6 +17,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {AntDesign} from 'react-native-vector-icons/AntDesign';
 import axios from 'axios';
+import {useNavigation} from '@react-navigation/native';
 
 const {width, height} = Dimensions.get('window');
 
@@ -43,6 +44,7 @@ const Data = [
   },
 ];
 const HomePage = () => {
+  const navigation = useNavigation();
   const [data, setData] = useState([]); // State to hold the fetched data (array)
   const [loading, setLoading] = useState(true); // State to handle loading state
   const [error, setError] = useState(null); // State to handle errors
@@ -102,7 +104,11 @@ const HomePage = () => {
       </View>
       <View style={styles.buttons}>
         <TouchableOpacity style={[styles.button, styles.buttonPrimary]}>
-          <Text style={styles.buttonText}>Buy Now</Text>
+          <Text
+            style={styles.buttonText}
+            onPress={() => navigation.navigate('BuyPage', {item})}>
+            Buy Now
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>Add to Cart</Text>
@@ -195,7 +201,7 @@ const HomePage = () => {
                     <FlatList
                       data={data.slice(1, 5)}
                       renderItem={renderItem}
-                      keyExtractor={item => item.id.toString()}
+                      keyExtractor={item => item.id}
                       showsHorizontalScrollIndicator={false}
                     />
                   </View>
