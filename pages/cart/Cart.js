@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {
   View,
   Text,
@@ -7,6 +7,9 @@ import {
   TouchableOpacity,
   Dimensions,
   FlatList,
+  Modal,
+  Button,
+  Animated,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
@@ -55,7 +58,9 @@ const initialData = [
 
 const ProductCard = () => {
   const [data, setData] = useState(initialData);
-
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const fadeAnim = useRef(new Animated.Value(0)).current;
   const handleChangeNumberPlus = id => {
     setData(prevData =>
       prevData.map(item =>
@@ -67,11 +72,28 @@ const ProductCard = () => {
   const handleChangeNumberMinus = id => {
     setData(prevData =>
       prevData.map(item =>
-        item.id === id && item.quantity >= 1
+        item.id === id && item.quantity > 1
           ? {...item, quantity: item.quantity - 1}
           : item,
       ),
     );
+  };
+
+  const handleOptionsPress = (id, event) => {
+    setSelectedItem(id);
+    setModalVisible(true);
+    Animated.timing(fadeAnim, {
+      toValue: 23,
+      duration: 500,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const handleDeleteFromList = () => {
+    if (selectedItem) {
+      setData(prevData => prevData.filter(item => item.id !== selectedItem));
+    }
+    setModalVisible(false);
   };
 
   const renderItem = ({item}) => {
@@ -81,7 +103,22 @@ const ProductCard = () => {
           <Image source={item.image} style={styles.image} />
         </View>
         <View style={styles.detailsContainer}>
-          <EntypoIcon name={'dots-three-vertical'} style={styles.optionsIcon} />
+          <TouchableOpacity
+            onPress={event => handleOptionsPress(item.id, event)}
+            style={styles.optionsIconContainer} // Add this style
+          >
+            <EntypoIcon
+              name={'dots-three-vertical'}
+              style={styles.optionsIcon}
+            />
+          </TouchableOpacity>
+          {modalVisible && selectedItem === item.id && (
+            <Animated.View style={[styles.popup, {opacity: fadeAnim}]}>
+              <TouchableOpacity  onPress={handleDeleteFromList}>
+                <Text style={{textAlign: 'center'}}>Delete</Text>
+              </TouchableOpacity>
+            </Animated.View>
+          )}
           <Text style={styles.title}>{item.title}</Text>
           <View style={styles.colorSizeContainer}>
             <Text>
@@ -197,10 +234,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
-  optionsIcon: {
+  optionsIconContainer: {
     position: 'absolute',
-    top: 5,
+    top: 0,
     right: 0,
+    padding: 10,
+    zIndex: 1,
+  },
+  optionsIcon: {
     fontSize: Math.min(width, height) * 0.05,
     color: '#666666',
   },
@@ -275,8 +316,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginVertical:  height * 0.004,
-    marginHorizontal: width * 0.02
+    marginVertical: height * 0.004,
+    marginHorizontal: width * 0.02,
   },
   totalLabelText: {
     fontSize: Math.min(width, height) * 0.05,
@@ -285,6 +326,17 @@ const styles = StyleSheet.create({
   totalValueText: {
     fontSize: Math.min(width, height) * 0.05,
     fontWeight: '700',
+  },
+  popup: {
+    position: 'absolute',
+    top: 30, // Adjust this value to position the popup below the icon
+    right: 20,
+    backgroundColor: 'white',
+    padding: 10,
+    width: width * 0.21,
+    borderRadius: 5,
+    elevation: 5,
+    zIndex: 2,
   },
 });
 
