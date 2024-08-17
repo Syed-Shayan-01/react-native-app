@@ -181,14 +181,14 @@ const ProductCard = () => {
         renderItem={renderItem}
         keyExtractor={item => item.id.toString()}
       />
-
-      <View>
-        <TouchableOpacity style={styles.checkoutButton}>
-          <Text style={styles.checkoutText}>Checkout</Text>
-        </TouchableOpacity>
+      <View style={styles.footer}>
         <TouchableOpacity style={styles.totalContainer}>
           <Text style={styles.totalLabelText}>Total Amount:</Text>
           <Text style={styles.totalValueText}> $15.99</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.checkOutButton}>
+          <Text style={styles.buttonText}>Check Out</Text>
         </TouchableOpacity>
       </View>
     </>
@@ -307,29 +307,30 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
-  checkoutButton: {
-    backgroundColor: '#0975b0',
-    padding: Math.min(width, height) * 0.045,
-    borderRadius: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginHorizontal: width * 0.03,
-    marginTop: height * 0.02,
+  footer: {
+    padding: 15,
+    backgroundColor: 'white',
+    borderTopWidth: 1,
+    borderTopColor: '#e0e0e0',
+    elevation: 50,
   },
-  checkoutText: {
-    fontSize: 18,
+  checkOutButton: {
+    backgroundColor: '#0975b0',
+    padding: 15,
+    borderRadius: 5,
+  },
+  buttonText: {
+    fontSize: 16,
+    textAlign: 'center',
     fontWeight: 'bold',
     color: 'white',
   },
   totalContainer: {
-    backgroundColor: '#f5f5f5',
-    // padding: Math.min(width, height) * 0.05,
     borderRadius: 8,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginVertical: height * 0.004,
-    marginHorizontal: width * 0.02,
   },
   totalLabelText: {
     fontSize: Math.min(width, height) * 0.05,
