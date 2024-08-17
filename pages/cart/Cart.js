@@ -10,6 +10,7 @@ import {
   Modal,
   Button,
   Animated,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
@@ -96,60 +97,70 @@ const ProductCard = () => {
     setModalVisible(false);
   };
 
+  const onClosePopupWindow = () => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 50,
+      useNativeDriver: true,
+    }).start(() => setModalVisible(false));
+  };
+
   const renderItem = ({item}) => {
     return (
-      <View style={styles.container}>
-        <View style={styles.imageContainer}>
-          <Image source={item.image} style={styles.image} />
-        </View>
-        <View style={styles.detailsContainer}>
-          <TouchableOpacity
-            onPress={event => handleOptionsPress(item.id, event)}
-            style={styles.optionsIconContainer} // Add this style
-          >
-            <EntypoIcon
-              name={'dots-three-vertical'}
-              style={styles.optionsIcon}
-            />
-          </TouchableOpacity>
-          {modalVisible && selectedItem === item.id && (
-            <Animated.View style={[styles.popup, {opacity: fadeAnim}]}>
-              <TouchableOpacity  onPress={handleDeleteFromList}>
-                <Text style={{textAlign: 'center'}}>Delete</Text>
-              </TouchableOpacity>
-            </Animated.View>
-          )}
-          <Text style={styles.title}>{item.title}</Text>
-          <View style={styles.colorSizeContainer}>
-            <Text>
-              <Text style={styles.labelText}>Color:</Text>
-              <Text style={styles.valueText}>{item.color}</Text>
-            </Text>
-            <Text style={styles.colorSizeText}>
-              <Text style={styles.labelText}>Size:</Text>
-              <Text style={styles.valueText}>{item.size}</Text>
-            </Text>
+      <TouchableWithoutFeedback onPress={onClosePopupWindow}>
+        <View style={styles.container}>
+          <View style={styles.imageContainer}>
+            <Image source={item.image} style={styles.image} />
           </View>
-          <View style={styles.quantityPriceContainer}>
-            <View style={styles.quantityContainer}>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => handleChangeNumberMinus(item.id)}>
-                <Text style={styles.buttonText}>-</Text>
-              </TouchableOpacity>
-              <Text style={styles.quantity}>{item.quantity}</Text>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => handleChangeNumberPlus(item.id)}>
-                <Text style={styles.buttonText}>+</Text>
-              </TouchableOpacity>
+          <View style={styles.detailsContainer}>
+            <TouchableOpacity
+              onPress={event => handleOptionsPress(item.id, event)}
+              style={styles.optionsIconContainer} // Add this style
+            >
+              <EntypoIcon
+                name={'dots-three-vertical'}
+                style={styles.optionsIcon}
+              />
+            </TouchableOpacity>
+            {modalVisible && selectedItem === item.id && (
+              <Animated.View style={[styles.popup, {opacity: fadeAnim}]}>
+                <TouchableOpacity onPress={handleDeleteFromList}>
+                  <Text style={{textAlign: 'center'}}>Delete</Text>
+                </TouchableOpacity>
+              </Animated.View>
+            )}
+            <Text style={styles.title}>{item.title}</Text>
+            <View style={styles.colorSizeContainer}>
+              <Text>
+                <Text style={styles.labelText}>Color:</Text>
+                <Text style={styles.valueText}>{item.color}</Text>
+              </Text>
+              <Text style={styles.colorSizeText}>
+                <Text style={styles.labelText}>Size:</Text>
+                <Text style={styles.valueText}>{item.size}</Text>
+              </Text>
             </View>
-            <View style={styles.priceContainer}>
-              <Text style={styles.price}>{item.price * item.quantity}$</Text>
+            <View style={styles.quantityPriceContainer}>
+              <View style={styles.quantityContainer}>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => handleChangeNumberMinus(item.id)}>
+                  <Text style={styles.buttonText}>-</Text>
+                </TouchableOpacity>
+                <Text style={styles.quantity}>{item.quantity}</Text>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => handleChangeNumberPlus(item.id)}>
+                  <Text style={styles.buttonText}>+</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.priceContainer}>
+                <Text style={styles.price}>{item.price * item.quantity}$</Text>
+              </View>
             </View>
           </View>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     );
   };
 
@@ -164,6 +175,7 @@ const ProductCard = () => {
           <AntDesign name="delete" style={styles.userIcon} />
         </Text>
       </View>
+
       <FlatList
         data={data}
         renderItem={renderItem}
