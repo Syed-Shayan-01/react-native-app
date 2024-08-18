@@ -299,6 +299,7 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: Math.min(width, height) * 0.07,
     fontWeight: 'bold',
+    color: '#666666',
   },
   quantity: {
     fontSize: 16,

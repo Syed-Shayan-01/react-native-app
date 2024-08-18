@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Dimensions} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomePage from '../../pages/homePage/HomePage';
 import BuyPage from '../../pages/buyPage/BuyPage';
@@ -10,11 +10,10 @@ import Cart from '../../pages/cart/Cart';
 const Tab = createBottomTabNavigator();
 const {height, width} = Dimensions.get('window');
 
-
 const TabNavigator = () => {
   return (
     <Tab.Navigator
-    initialRouteName='Home'
+      initialRouteName="Profile"
       screenOptions={({route}) => ({
         tabBarIcon: ({focused, color, size}) => {
           let iconName;
@@ -45,11 +44,7 @@ const TabNavigator = () => {
         component={HomePage}
         options={{headerShown: false}}
       />
-      <Tab.Screen
-        name="Cart"
-        component={Cart}
-        options={{headerShown: false}}
-      />
+      <Tab.Screen name="Cart" component={Cart} options={{headerShown: false}} />
       <Tab.Screen
         name="Profile"
         component={Profile}

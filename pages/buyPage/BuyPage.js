@@ -14,11 +14,16 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Link, useRoute} from '@react-navigation/native';
+import CustomDropdown from '../../components/customDropDown/CustomDropDown';
 const {width, height} = Dimensions.get('window');
 
 const BuyPage = () => {
   const {params} = useRoute();
-
+  const dropdownData = [
+    {label: 'Option 1', value: '1'},
+    {label: 'Option 2', value: '2'},
+    {label: 'Option 3', value: '3'},
+  ];
   const Data = [
     {
       imageUrl: 'https://m.media-amazon.com/images/I/813aV273-rL._SY466_.jpg',
@@ -27,7 +32,9 @@ const BuyPage = () => {
       price: 99.99,
     },
   ];
-
+  const handleSelect = item => {
+    console.log('Selected:', item);
+  };
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scrollView}>
@@ -55,8 +62,6 @@ const BuyPage = () => {
                 alignItems: 'center',
                 padding: Math.min(width, height) * 0.04,
               }}>
-              <Text style={{ fontSize: 10}}>Size</Text>
-              <Text style={{ fontSize: 10}}>Color</Text>
               <TouchableOpacity>
                 <FeatherIcon name="heart" size={24} color="#333333" />
               </TouchableOpacity>
@@ -94,11 +99,15 @@ const BuyPage = () => {
                 borderColor: '#666666',
                 padding: Math.min(width, height) * 0.04,
               }}>
-              <Text style={{color: '#333333'}}>Support</Text>
+              <Link to={'/Ratings'}>
+                <Text style={{color: '#333333'}}>Ratings & Reviews</Text>
+              </Link>
               <Text style={{color: '#333333'}}>
                 <AntDesign name="right" />
               </Text>
             </View>
+
+            {/* Ratings and reviews */}
           </View>
         </View>
       </ScrollView>
