@@ -24,14 +24,14 @@ const BuyPage = () => {
     {label: 'Option 2', value: '2'},
     {label: 'Option 3', value: '3'},
   ];
-  const Data = [
-    {
-      imageUrl: 'https://m.media-amazon.com/images/I/813aV273-rL._SY466_.jpg',
-      title: 'Item Name',
-      description: 'This is a detailed description of the item.',
-      price: 99.99,
-    },
-  ];
+  // const Data = [
+  //   {
+  //     imageUrl: 'https://m.media-amazon.com/images/I/813aV273-rL._SY466_.jpg',
+  //     title: 'Item Name',
+  //     description: 'This is a detailed description of the item.',
+  //     price: 99.99,
+  //   },
+  // ];
   const handleSelect = item => {
     console.log('Selected:', item);
   };
@@ -46,25 +46,23 @@ const BuyPage = () => {
             <IonIcon name="share-social" style={styles.userIcon} />
           </Text>
         </View>
+
         <View>
           <Image style={styles.image} source={{uri: params?.item?.image}} />
         </View>
 
-        <View
-          style={{
-            paddingTop: 20,
-          }}>
+        <View>
           <View>
             <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                padding: Math.min(width, height) * 0.04,
+                padding: Math.min(width, height) * 0.02,
               }}>
-              <TouchableOpacity>
+              {/* <TouchableOpacity style={{}}>
                 <FeatherIcon name="heart" size={24} color="#333333" />
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
           </View>
           <View style={styles.textTitleContain}>

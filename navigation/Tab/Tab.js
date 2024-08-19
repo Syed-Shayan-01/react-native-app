@@ -13,7 +13,7 @@ const {height, width} = Dimensions.get('window');
 const TabNavigator = () => {
   return (
     <Tab.Navigator
-      initialRouteName="Profile"
+      initialRouteName="Home"
       screenOptions={({route}) => ({
         tabBarIcon: ({focused, color, size}) => {
           let iconName;

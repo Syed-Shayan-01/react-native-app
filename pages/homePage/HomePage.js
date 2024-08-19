@@ -11,14 +11,10 @@ import {
   ScrollView,
   ActivityIndicator,
 } from 'react-native';
-import IonIcon from 'react-native-vector-icons/Ionicons';
-import FeatherIcon from 'react-native-vector-icons/Feather';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {AntDesign} from 'react-native-vector-icons/AntDesign';
 import axios from 'axios';
-import {useNavigation} from '@react-navigation/native';
-
+import {Link, useNavigation} from '@react-navigation/native';
 const {width, height} = Dimensions.get('window');
 
 const Data = [
@@ -126,14 +122,10 @@ const HomePage = () => {
               <View>
                 {index === 0 && (
                   <>
-                    <View style={styles.navbar}>
-                      <Text>
-                        <IonIcon name="menu-outline" style={styles.menuicon} />
-                      </Text>
-                      <Text style={styles.homeTxt}>Home Page</Text>
-                      <Text style={styles.userIcon}>
-                        <FeatherIcon name="user" style={styles.userIcon} />
-                      </Text>
+                    <View style={styles.header}>
+                      <Icon name="angle-left" size={24} color="#333333" />
+                      <Text style={styles.headerTitle}>Home Page</Text>
+                      <Icon name="search" size={18} color="#333333" />
                     </View>
                     <View style={styles.inputContainer}>
                       <SafeAreaView>
@@ -157,36 +149,38 @@ const HomePage = () => {
                       <FlatList
                         data={Data}
                         renderItem={({item}) => (
-                          <View
-                            style={{
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                              flex: 1,
-                              backgroundColor: '#f5f5f5',
-                            }}>
-                            <Image
+                          <Link to={'/ProductPage'}>
+                            <View
                               style={{
-                                width: 70,
-                                height: 70,
-                                borderRadius: 50,
-                                resizeMode: 'center',
-                                marginHorizontal: width * 0.05,
-                                borderColor: 'black',
-                                borderWidth: 1,
-                                elevation: 4, // Adjust as needed for shadow
-                              }}
-                              source={{uri: item.image}}
-                            />
-                            <Text
-                              style={{
-                                fontSize: Math.min(width, height) * 0.04,
-                                color: '#333333',
-                                textTransform: 'capitalize',
-                                marginVertical: height * 0.01,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                flex: 1,
+                                backgroundColor: '#f5f5f5',
                               }}>
-                              {item.categories}
-                            </Text>
-                          </View>
+                              <Image
+                                style={{
+                                  width: 70,
+                                  height: 70,
+                                  borderRadius: 50,
+                                  resizeMode: 'center',
+                                  marginHorizontal: width * 0.05,
+                                  borderColor: 'black',
+                                  borderWidth: 1,
+                                  elevation: 4, // Adjust as needed for shadow
+                                }}
+                                source={{uri: item.image}}
+                              />
+                              <Text
+                                style={{
+                                  fontSize: Math.min(width, height) * 0.04,
+                                  color: '#333333',
+                                  textTransform: 'capitalize',
+                                  marginVertical: height * 0.01,
+                                }}>
+                                {item.categories}
+                              </Text>
+                            </View>
+                          </Link>
                         )}
                         keyExtractor={item => item.id.toString()}
                         horizontal
@@ -219,28 +213,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  navbar: {
+  header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingVertical: 20,
     alignItems: 'center',
+    padding: Math.min(width, height) * 0.04,
+    borderBottomWidth: 1,
+    borderBottomColor: '#EEEEEE',
   },
-  menuicon: {
-    fontSize: 30,
-    color: '#666666',
-  },
-  homeTxt: {
-    fontSize: 20,
+  headerTitle: {
+    fontSize: Math.min(width, height) * 0.05,
     fontWeight: 'bold',
-    color: '#333333',
-  },
-  userIcon: {
-    fontSize: 25,
-    backgroundColor: '#0975b0',
-    padding: 6,
-    borderRadius: 100,
-    color: 'white',
+    color: '#333333'
   },
   inputContainer: {
     flex: 1,

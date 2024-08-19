@@ -145,13 +145,13 @@ const ProductCard = () => {
                 <TouchableOpacity
                   style={styles.button}
                   onPress={() => handleChangeNumberMinus(item.id)}>
-                  <Text style={styles.buttonText}>-</Text>
+                  <Text style={styles.quantityManageBtn}>-</Text>
                 </TouchableOpacity>
                 <Text style={styles.quantity}>{item.quantity}</Text>
                 <TouchableOpacity
                   style={styles.button}
                   onPress={() => handleChangeNumberPlus(item.id)}>
-                  <Text style={styles.buttonText}>+</Text>
+                  <Text style={styles.quantityManageBtn}>+</Text>
                 </TouchableOpacity>
               </View>
               <View style={styles.priceContainer}>
@@ -222,9 +222,9 @@ const styles = StyleSheet.create({
     color: '#666666',
   },
   homeTxt: {
-    fontSize: Math.min(width, height) * 0.08,
+    fontSize: Math.min(width, height) * 0.05,
     fontWeight: 'bold',
-    color: '#333333',
+    color: '#333333'
   },
   userIcon: {
     fontSize: Math.min(width, height) * 0.06,
@@ -290,14 +290,14 @@ const styles = StyleSheet.create({
     height: height * 0.07,
     width: height * 0.07,
     backgroundColor: 'white',
-    borderRadius: 100,
+    borderRadius: height * 0.035,
     justifyContent: 'center',
     alignItems: 'center',
     marginHorizontal: width * 0.02,
     elevation: 5,
   },
-  buttonText: {
-    fontSize: Math.min(width, height) * 0.07,
+  quantityManageBtn: {
+    fontSize: Math.min(width, height) * 0.056, 
     fontWeight: 'bold',
     color: '#666666',
   },
