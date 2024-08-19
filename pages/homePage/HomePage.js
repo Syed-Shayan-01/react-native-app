@@ -39,6 +39,21 @@ const Data = [
     image: 'https://fakestoreapi.com/img/81XH0e8fefL._AC_UY879_.jpg',
   },
 ];
+
+const StarRating = ({rating}) => {
+  return (
+    <View style={styles.starContainer}>
+      {[1, 2, 3, 4, 5].map(star => (
+        <Icon
+          key={star}
+          name={star <= rating ? 'star' : 'star-o'}
+          size={16}
+          color={star <= rating ? '#FFD700' : '#E0E0E0'}
+        />
+      ))}
+    </View>
+  );
+};
 const HomePage = () => {
   const navigation = useNavigation();
   const [data, setData] = useState([]); // State to hold the fetched data (array)
@@ -66,8 +81,8 @@ const HomePage = () => {
     return (
       <ActivityIndicator
         size="large"
-        color="#0000ff"
-        style={{marginVertical: width * 0.5}} // Adjust margin based on your layout
+        color="#0975b0"
+        style={{marginVertical: width * 0.7}} // Adjust margin based on your layout
       />
     );
   }
@@ -91,11 +106,13 @@ const HomePage = () => {
         <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
           {item.title}
         </Text>
-        <Text style={styles.author}>Author: {item.author || 'Unknown'}</Text>
-        <Text style={styles.rating}>
-          {item.rating?.rate || 'No rating'} Based on
-          {item.rating?.count || '0'} Reviews
+        <Text style={styles.author} numberOfLines={1}>
+          Category: {item.category || 'Unknown'}
         </Text>
+        <View style={styles.ratingreviewContainer}>
+          <StarRating rating={item.rating.rate} />
+          <Text style={styles.reviewCount}>({item.rating.count})</Text>
+        </View>
         <Text style={styles.price}>${item.price}</Text>
       </View>
       <View style={styles.buttons}>
@@ -123,7 +140,9 @@ const HomePage = () => {
                 {index === 0 && (
                   <>
                     <View style={styles.header}>
-                      <Icon name="angle-left" size={24} color="#333333" />
+                      <Link to={'/TitlePage'}>
+                        <Icon name="angle-left" size={24} color="#333333" />
+                      </Link>
                       <Text style={styles.headerTitle}>Home Page</Text>
                       <Icon name="search" size={18} color="#333333" />
                     </View>
@@ -149,7 +168,12 @@ const HomePage = () => {
                       <FlatList
                         data={Data}
                         renderItem={({item}) => (
-                          <Link to={'/ProductPage'}>
+                          <TouchableOpacity
+                            onPress={() =>
+                              navigation.navigate('ProductPage', {
+                                category: item.categories,
+                              })
+                            }>
                             <View
                               style={{
                                 justifyContent: 'center',
@@ -180,7 +204,7 @@ const HomePage = () => {
                                 {item.categories}
                               </Text>
                             </View>
-                          </Link>
+                          </TouchableOpacity>
                         )}
                         keyExtractor={item => item.id.toString()}
                         horizontal
@@ -224,7 +248,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: Math.min(width, height) * 0.05,
     fontWeight: 'bold',
-    color: '#333333'
+    color: '#333333',
   },
   inputContainer: {
     flex: 1,
@@ -294,9 +318,18 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#666666',
   },
-  rating: {
-    fontSize: 12,
+  starContainer: {
+    flexDirection: 'row',
+    marginTop: height * 0.003,
+  },
+  ratingreviewContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  reviewCount: {
+    fontSize: Math.min(width, height) * 0.03,
     color: '#666666',
+    marginLeft: width * 0.01,
   },
   price: {
     fontSize: 16,

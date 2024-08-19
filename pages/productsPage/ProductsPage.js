@@ -1,4 +1,4 @@
-import {Link, useNavigation} from '@react-navigation/native';
+import {Link, useNavigation, useRoute} from '@react-navigation/native';
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import {
@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Dimensions,
+  ActivityIndicator,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 const {width, height} = Dimensions.get('window');
@@ -55,28 +56,45 @@ const ProductItem = ({item}) => {
         )}
       </View>
       <View style={styles.ratingreviewContainer}>
-        <StarRating rating={item.rating} />
-        <Text style={styles.reviewCount}>({item.reviewCount})</Text>
+        <StarRating rating={item.rating.rate} />
+        <Text style={styles.reviewCount}>({item.rating.count})</Text>
       </View>
     </TouchableOpacity>
   );
 };
 
 const ProductList = () => {
+  const {params} = useRoute();
+  console.log(params);
+
   const [data, setData] = useState(null);
-  //   useEffect(() => {
-  //     const fetchData = async () => {
-  //       try {
-  //         const response = await axios.get('https://fakestoreapi.com/products/');
-  //         setData(response.data);
-  //       } catch (err) {
-  //         console.log(err);
-  //       } finally {
-  //         console.log('ruko zara sabr karo');
-  //       }
-  //     };
-  //     fetchData();
-  //   }, []);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('https://fakestoreapi.com/products/');
+        const filteredData = response.data.filter(
+          product => product.category === params.category,
+        );
+        setData(filteredData);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <ActivityIndicator
+        size="extraLarge"
+        color="#0975b0"
+        style={{marginVertical: width * 0.7}} // Adjust margin based on your layout
+      />
+    );
+  }
   const products = [
     {
       id: '1',
@@ -169,7 +187,7 @@ const ProductList = () => {
         <Icon name="search" size={18} color="#333333" />
       </View>
       <View style={styles.categoryContainer}>
-        {['T-shirts', 'Crop tops', 'Blouses', 'Shirts',].map(category => (
+        {['T-shirts', 'Crop tops', 'Blouses', 'Shirts'].map(category => (
           <TouchableOpacity key={category} style={styles.categoryButton}>
             <Text style={styles.categoryText}>{category}</Text>
           </TouchableOpacity>
@@ -186,7 +204,7 @@ const ProductList = () => {
         </TouchableOpacity>
       </View>
       <FlatList
-        data={products}
+        data={data}
         renderItem={({item}) => <ProductItem item={item} />}
         keyExtractor={item => item.id}
         numColumns={2}
