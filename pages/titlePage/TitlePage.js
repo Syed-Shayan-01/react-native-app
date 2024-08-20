@@ -113,19 +113,19 @@ const onboardingData = [
     id: '1',
     title:   `Welcome to Educate Hub`,
     description: 'Discover a world of possibilities at your fingertips.',
-    image: require('../../public/images/image5.png'), // Replace with your image
+    image: require('../../public/images/shop.png'), // Replace with your image
   },
   {
     id: '2',
     title: 'Learn Anytime, Anywhere',
     description: 'Access our vast library of courses on the go.',
-    image: require('../../public/images/image6.png'), // Replace with your image
+    image: require('../../public/images/vector.png'), // Replace with your image
   },
   {
     id: '3',
     title: 'Track Your Progress',
     description: 'Stay motivated with personalized learning analytics.',
-    image: require('../../public/images/image3.png'), // Replace with your image
+    image: require('../../public/images/vector2.png'), // Replace with your image
   },
 ];
 
@@ -211,9 +211,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: width * 0.1,
   },
   image: {
-    width: width * 1,
+    width: width * 0.9,
     height: height * 0.4,
-    resizeMode: 'contain',
+    resizeMode: 'cover',
   },
   title: {
     fontSize: Math.min(width, height) * 0.06,
