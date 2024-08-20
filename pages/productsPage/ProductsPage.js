@@ -95,87 +95,87 @@ const ProductList = () => {
       />
     );
   }
-  const products = [
-    {
-      id: '1',
-      title: 'T-Shirt SPANISH',
-      brand: 'Mango',
-      price: '9',
-      originalPrice: '12',
-      image:
-        'https://5.imimg.com/data5/YC/KS/MY-12985213/wireless-bluetooth-4-0-stereo-headset-handsfree-earphone-500x500.jpg',
-      discount: '-20%',
-      rating: 4,
-      reviewCount: 3,
-      description:
-        ' Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae, iusto, qui minima vel ullam beatae quae nulla repellat sit sequi, laborum facere deleniti!',
-    },
-    {
-      id: '2',
-      title: 'Blouse',
-      brand: 'Dorothy Perkins',
-      price: '14',
-      image:
-        'https://5.imimg.com/data5/YC/KS/MY-12985213/wireless-bluetooth-4-0-stereo-headset-handsfree-earphone-500x500.jpg',
-      rating: 5,
-      reviewCount: 10,
-      description:
-        ' Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae, iusto, qui minima vel ullam beatae quae nulla repellat sit sequi, laborum facere deleniti!',
-    },
-    {
-      id: '3',
-      title: 'Jeans',
-      brand: "Levi's",
-      price: '45',
-      originalPrice: '60',
-      image:
-        'https://5.imimg.com/data5/YC/KS/MY-12985213/wireless-bluetooth-4-0-stereo-headset-handsfree-earphone-500x500.jpg',
-      rating: 4.5,
-      reviewCount: 8,
-    },
-    {
-      id: '4',
-      title: 'Leather Jacket',
-      brand: 'Zara',
-      price: '120',
-      originalPrice: '150',
-      image:
-        'https://5.imimg.com/data5/YC/KS/MY-12985213/wireless-bluetooth-4-0-stereo-headset-handsfree-earphone-500x500.jpg',
-      discount: '-20%',
-      rating: 4.7,
-      reviewCount: 12,
-      description:
-        ' Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae, iusto, qui minima vel ullam beatae quae nulla repellat sit sequi, laborum facere deleniti!',
-    },
-    {
-      id: '5',
-      title: 'Sneakers',
-      brand: 'Nike',
-      price: '85',
-      originalPrice: '100',
-      image:
-        'https://5.imimg.com/data5/YC/KS/MY-12985213/wireless-bluetooth-4-0-stereo-headset-handsfree-earphone-500x500.jpg',
-      discount: '-15%',
-      rating: 4.8,
-      reviewCount: 25,
-      description:
-        ' Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae, iusto, qui minima vel ullam beatae quae nulla repellat sit sequi, laborum facere deleniti!',
-    },
-    {
-      id: '6',
-      title: 'Dress',
-      brand: 'H&M',
-      price: '30',
-      originalPrice: '40',
-      image:
-        'https://5.imimg.com/data5/YC/KS/MY-12985213/wireless-bluetooth-4-0-stereo-headset-handsfree-earphone-500x500.jpg',
-      discount: '-25%',
-      rating: 4.3,
-      reviewCount: 15,
-      description:
-        ' Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae, iusto, qui minima vel ullam beatae quae nulla repellat sit sequi, laborum facere deleniti!',
-    },
-  ];
+  // const products = [
+  //   {
+  //     id: '1',
+  //     title: 'T-Shirt SPANISH',
+  //     brand: 'Mango',
+  //     price: '9',
+  //     originalPrice: '12',
+  //     image:
+  //       'https://5.imimg.com/data5/YC/KS/MY-12985213/wireless-bluetooth-4-0-stereo-headset-handsfree-earphone-500x500.jpg',
+  //     discount: '-20%',
+  //     rating: 4,
+  //     reviewCount: 3,
+  //     description:
+  //       ' Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae, iusto, qui minima vel ullam beatae quae nulla repellat sit sequi, laborum facere deleniti!',
+  //   },
+  //   {
+  //     id: '2',
+  //     title: 'Blouse',
+  //     brand: 'Dorothy Perkins',
+  //     price: '14',
+  //     image:
+  //       'https://5.imimg.com/data5/YC/KS/MY-12985213/wireless-bluetooth-4-0-stereo-headset-handsfree-earphone-500x500.jpg',
+  //     rating: 5,
+  //     reviewCount: 10,
+  //     description:
+  //       ' Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae, iusto, qui minima vel ullam beatae quae nulla repellat sit sequi, laborum facere deleniti!',
+  //   },
+  //   {
+  //     id: '3',
+  //     title: 'Jeans',
+  //     brand: "Levi's",
+  //     price: '45',
+  //     originalPrice: '60',
+  //     image:
+  //       'https://5.imimg.com/data5/YC/KS/MY-12985213/wireless-bluetooth-4-0-stereo-headset-handsfree-earphone-500x500.jpg',
+  //     rating: 4.5,
+  //     reviewCount: 8,
+  //   },
+  //   {
+  //     id: '4',
+  //     title: 'Leather Jacket',
+  //     brand: 'Zara',
+  //     price: '120',
+  //     originalPrice: '150',
+  //     image:
+  //       'https://5.imimg.com/data5/YC/KS/MY-12985213/wireless-bluetooth-4-0-stereo-headset-handsfree-earphone-500x500.jpg',
+  //     discount: '-20%',
+  //     rating: 4.7,
+  //     reviewCount: 12,
+  //     description:
+  //       ' Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae, iusto, qui minima vel ullam beatae quae nulla repellat sit sequi, laborum facere deleniti!',
+  //   },
+  //   {
+  //     id: '5',
+  //     title: 'Sneakers',
+  //     brand: 'Nike',
+  //     price: '85',
+  //     originalPrice: '100',
+  //     image:
+  //       'https://5.imimg.com/data5/YC/KS/MY-12985213/wireless-bluetooth-4-0-stereo-headset-handsfree-earphone-500x500.jpg',
+  //     discount: '-15%',
+  //     rating: 4.8,
+  //     reviewCount: 25,
+  //     description:
+  //       ' Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae, iusto, qui minima vel ullam beatae quae nulla repellat sit sequi, laborum facere deleniti!',
+  //   },
+  //   {
+  //     id: '6',
+  //     title: 'Dress',
+  //     brand: 'H&M',
+  //     price: '30',
+  //     originalPrice: '40',
+  //     image:
+  //       'https://5.imimg.com/data5/YC/KS/MY-12985213/wireless-bluetooth-4-0-stereo-headset-handsfree-earphone-500x500.jpg',
+  //     discount: '-25%',
+  //     rating: 4.3,
+  //     reviewCount: 15,
+  //     description:
+  //       ' Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae, iusto, qui minima vel ullam beatae quae nulla repellat sit sequi, laborum facere deleniti!',
+  //   },
+  // ];
 
   return (
     <SafeAreaView style={styles.container}>

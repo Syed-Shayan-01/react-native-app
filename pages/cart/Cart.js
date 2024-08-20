@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useContext, useRef, useState} from 'react';
 import {
   View,
   Text,
@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
-
+import {CartContext} from '../../components/context/CartContext';
 const {width, height} = Dimensions.get('window');
 
 // Initial data with quantity field
@@ -58,26 +58,20 @@ const initialData = [
 ];
 
 const ProductCard = () => {
-  const [data, setData] = useState(initialData);
+  const {cartItems} = useContext(CartContext);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const fadeAnim = useRef(new Animated.Value(0)).current;
-  const handleChangeNumberPlus = id => {
-    setData(prevData =>
-      prevData.map(item =>
-        item.id === id ? {...item, quantity: item.quantity + 1} : item,
-      ),
-    );
+  const [count, setCount] = useState(1);
+  const [data, setData] = useState(cartItems);
+  // Increment handler
+  const handleChangeNumberPlus = () => {
+    setCount(prevCount => prevCount + 1);
   };
 
-  const handleChangeNumberMinus = id => {
-    setData(prevData =>
-      prevData.map(item =>
-        item.id === id && item.quantity > 1
-          ? {...item, quantity: item.quantity - 1}
-          : item,
-      ),
-    );
+  // Decrement handler
+  const handleChangeNumberMinus = () => {
+    setCount(prevCount => (prevCount > 1 ? prevCount - 1 : prevCount));
   };
 
   const handleOptionsPress = (id, event) => {
@@ -110,7 +104,7 @@ const ProductCard = () => {
       <TouchableWithoutFeedback onPress={onClosePopupWindow}>
         <View style={styles.container}>
           <View style={styles.imageContainer}>
-            <Image source={item.image} style={styles.image} />
+            <Image source={{uri: item.image}} style={styles.image} />
           </View>
           <View style={styles.detailsContainer}>
             <TouchableOpacity
@@ -144,18 +138,20 @@ const ProductCard = () => {
               <View style={styles.quantityContainer}>
                 <TouchableOpacity
                   style={styles.button}
-                  onPress={() => handleChangeNumberMinus(item.id)}>
+                  onPress={handleChangeNumberMinus}>
                   <Text style={styles.quantityManageBtn}>-</Text>
                 </TouchableOpacity>
-                <Text style={styles.quantity}>{item.quantity}</Text>
+                <Text style={styles.quantity}>{count}</Text>
                 <TouchableOpacity
                   style={styles.button}
-                  onPress={() => handleChangeNumberPlus(item.id)}>
+                  onPress={handleChangeNumberPlus}>
                   <Text style={styles.quantityManageBtn}>+</Text>
                 </TouchableOpacity>
               </View>
               <View style={styles.priceContainer}>
-                <Text style={styles.price}>{item.price * item.quantity}$</Text>
+                <Text style={styles.price}>
+                  {item.price.toFixed() * count}$
+                </Text>
               </View>
             </View>
           </View>
@@ -177,15 +173,21 @@ const ProductCard = () => {
       </View>
 
       <FlatList
-        data={data}
+        data={cartItems}
         renderItem={renderItem}
         keyExtractor={item => item.id.toString()}
       />
       <View style={styles.footer}>
-        <TouchableOpacity style={styles.totalContainer}>
-          <Text style={styles.totalLabelText}>Total Amount:</Text>
-          <Text style={styles.totalValueText}> $15.99</Text>
-        </TouchableOpacity>
+        {cartItems.map(item => {
+          return (
+            <TouchableOpacity style={styles.totalContainer}>
+              <Text style={styles.totalLabelText}>Total Amount:</Text>
+              <Text style={styles.totalValueText}>
+                ${item.price.toFixed() * count}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
 
         <TouchableOpacity style={styles.checkOutButton}>
           <Text style={styles.buttonText}>Check Out</Text>
@@ -224,7 +226,7 @@ const styles = StyleSheet.create({
   homeTxt: {
     fontSize: Math.min(width, height) * 0.05,
     fontWeight: 'bold',
-    color: '#333333'
+    color: '#333333',
   },
   userIcon: {
     fontSize: Math.min(width, height) * 0.06,
@@ -239,7 +241,8 @@ const styles = StyleSheet.create({
   image: {
     width: width * 0.35,
     height: height * 0.165,
-    resizeMode: 'cover',
+    alignSelf: 'center',
+    resizeMode: 'contain',
     borderRadius: 8,
   },
   detailsContainer: {
@@ -258,7 +261,8 @@ const styles = StyleSheet.create({
     color: '#666666',
   },
   title: {
-    fontSize: 18,
+    fontSize: width * 0.05,
+    width: width * 0.5,
     fontWeight: 'bold',
   },
   colorSizeContainer: {
@@ -297,7 +301,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   quantityManageBtn: {
-    fontSize: Math.min(width, height) * 0.056, 
+    fontSize: Math.min(width, height) * 0.056,
     fontWeight: 'bold',
     color: '#666666',
   },

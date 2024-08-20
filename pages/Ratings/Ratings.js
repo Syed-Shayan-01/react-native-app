@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -9,7 +9,8 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Link} from '@react-navigation/native';
+import {Link, useRoute} from '@react-navigation/native';
+import axios from 'axios';
 const {width, height} = Dimensions.get('window');
 
 const RatingBar = ({rating}) => {
@@ -62,7 +63,24 @@ const calculateAverageRating = ratings => {
   const totalRatings = ratings.reduce((sum, count) => sum + count, 0);
   return totalRatings > 0 ? (totalScore / totalRatings).toFixed(1) : '0.0';
 };
+
 const ReviewPage = () => {
+  const {params} = useRoute();
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`https://fakestoreapi.com/products/`);
+        setData(filteredData);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
   const reviews = [
     {
       id: '1',
@@ -90,7 +108,7 @@ const ReviewPage = () => {
     },
   ];
 
-  const ratings = [80, 10, 2, 20, 0];
+  const ratings = [100, 40, 19, 50, 50];
   const totalRatings = ratings.reduce((sum, rating) => sum + rating, 0);
   const averageRating = calculateAverageRating(ratings);
 
@@ -105,8 +123,10 @@ const ReviewPage = () => {
         <Text style={styles.headerTitle}>Rating & Reviews</Text>
         <View style={styles.ratingOverview}>
           <View>
-            <Text style={styles.overallRating}>{averageRating}</Text>
-            <Text style={styles.reviewCount}>{totalRatings} ratings</Text>
+            <Text style={styles.overallRating}>{params.rate.rating.rate}</Text>
+            <Text style={styles.reviewCount}>
+              {params.rate.rating.count} ratings
+            </Text>
           </View>
           <View style={styles.ratingDistribution}>
             {[5, 4, 3, 2, 1].map(stars => (
@@ -114,7 +134,7 @@ const ReviewPage = () => {
                 <Text style={styles.starCount}>{stars}</Text>
                 <RatingLineBar
                   count={ratings[5 - stars]}
-                  total={totalRatings}
+                  total={params.rate.rating.count}
                 />
               </View>
             ))}
