@@ -15,6 +15,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 import {Link, useNavigation} from '@react-navigation/native';
+import Navbar from '../../components/navbar/Navbar';
 const {width, height} = Dimensions.get('window');
 
 const Data = [
@@ -132,6 +133,7 @@ const HomePage = () => {
   return (
     <>
       <View style={{flex: 1}}>
+        <Navbar title={'Home'} linkTxt={'/TitlePage'} />
         <FlatList
           data={[1, 1]}
           renderItem={({item, index}) => {
@@ -139,13 +141,6 @@ const HomePage = () => {
               <View>
                 {index === 0 && (
                   <>
-                    <View style={styles.header}>
-                      <Link to={'/TitlePage'}>
-                        <Icon name="angle-left" size={24} color="#333333" />
-                      </Link>
-                      <Text style={styles.headerTitle}>Home Page</Text>
-                      <Icon name="search" size={18} color="#333333" />
-                    </View>
                     <View style={styles.inputContainer}>
                       <SafeAreaView>
                         <View style={styles.inputWrapper}>

@@ -234,6 +234,7 @@ const styles = StyleSheet.create({
   userName: {
     fontWeight: 'bold',
     marginBottom: 4,
+    color: '#666666'
   },
   ratingBar: {
     flexDirection: 'row',
@@ -246,6 +247,7 @@ const styles = StyleSheet.create({
   },
   reviewText: {
     fontSize: 14,
+    color: '#666666'
   },
 });
 

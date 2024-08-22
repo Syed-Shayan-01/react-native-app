@@ -13,6 +13,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Navbar from '../../components/navbar/Navbar';
 const {width, height} = Dimensions.get('window');
 const StarRating = ({rating}) => {
   return (
@@ -42,7 +43,7 @@ const ProductItem = ({item}) => {
       {/* <TouchableOpacity style={styles.favoriteButton}>
       <Icon name="heart-o" size={24} color="#E0E0E0" />
     </TouchableOpacity> */}
-      <Text style={styles.brandName}>{item.brand}</Text>
+      <Text style={styles.brandName}>{item.category}</Text>
       <Text
         style={styles.productName}
         numberOfLines={1}
@@ -65,7 +66,6 @@ const ProductItem = ({item}) => {
 
 const ProductList = () => {
   const {params} = useRoute();
-  console.log(params);
 
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -179,13 +179,7 @@ const ProductList = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Link to={'/Home'}>
-          <Icon name="angle-left" size={24} color="#333333" />
-        </Link>
-        <Text style={styles.headerTitle}>Women's Tops</Text>
-        <Icon name="search" size={18} color="#333333" />
-      </View>
+      <Navbar title={params.category} />
       <View style={styles.categoryContainer}>
         {['T-shirts', 'Crop tops', 'Blouses', 'Shirts'].map(category => (
           <TouchableOpacity key={category} style={styles.categoryButton}>
