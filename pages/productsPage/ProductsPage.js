@@ -1,4 +1,4 @@
-import {Link, useNavigation, useRoute} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import {
@@ -64,7 +64,7 @@ const ProductItem = ({item}) => {
   );
 };
 
-const ProductList = () => {
+const ProductPage = () => {
   const {params} = useRoute();
 
   const [data, setData] = useState(null);
@@ -95,7 +95,6 @@ const ProductList = () => {
       />
     );
   }
-  // const products = [
   //   {
   //     id: '1',
   //     title: 'T-Shirt SPANISH',
@@ -179,7 +178,7 @@ const ProductList = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Navbar title={params.category} />
+      <Navbar title={'Products'} />
       <View style={styles.categoryContainer}>
         {['T-shirts', 'Crop tops', 'Blouses', 'Shirts'].map(category => (
           <TouchableOpacity key={category} style={styles.categoryButton}>
@@ -212,19 +211,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F8F8F8',
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: Math.min(width, height) * 0.04,
-    borderBottomWidth: 1,
-    borderBottomColor: '#EEEEEE',
-  },
-  headerTitle: {
-    fontSize: Math.min(width, height) * 0.05,
-    fontWeight: 'bold',
-    color: '#333333',
   },
   categoryContainer: {
     flexDirection: 'row',
@@ -350,4 +336,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProductList;
+export default ProductPage;
