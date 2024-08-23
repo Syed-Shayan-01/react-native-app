@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   View,
   Text,
@@ -7,10 +7,14 @@ import {
   FlatList,
   Dimensions,
   TouchableOpacity,
+  TextInput,
+  Modal,
+  Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Link, useRoute} from '@react-navigation/native';
 import axios from 'axios';
+import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 const {width, height} = Dimensions.get('window');
 
 const RatingBar = ({rating}) => {
@@ -68,6 +72,30 @@ const ReviewPage = () => {
   const {params} = useRoute();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [reviewText, setReviewText] = useState('');
+  const [rating, setRating] = useState(0);
+  const [image, setImage] = useState(null);
+
+  const handleImageUpload = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
+
+  const handleSubmit = () => {
+    // Add your submit logic here
+    Alert.alert('Review Submitted', `Rating: ${rating}, Review: ${reviewText}`);
+    setModalVisible(false);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -81,6 +109,10 @@ const ReviewPage = () => {
     };
     fetchData();
   }, []);
+
+  const handleOpenModal = () => {
+    setModalVisible(true);
+  };
   const reviews = [
     {
       id: '1',
@@ -123,10 +155,8 @@ const ReviewPage = () => {
         <Text style={styles.headerTitle}>Rating & Reviews</Text>
         <View style={styles.ratingOverview}>
           <View>
-            <Text style={styles.overallRating}>{params.rate.rating.rate}</Text>
-            <Text style={styles.reviewCount}>
-              {params.rate.rating.count} ratings
-            </Text>
+            <Text style={styles.overallRating}>4.3</Text>
+            <Text style={styles.reviewCount}>112 ratings</Text>
           </View>
           <View style={styles.ratingDistribution}>
             {[5, 4, 3, 2, 1].map(stars => (
@@ -134,18 +164,88 @@ const ReviewPage = () => {
                 <Text style={styles.starCount}>{stars}</Text>
                 <RatingLineBar
                   count={ratings[5 - stars]}
-                  total={params.rate.rating.count}
+                  total={totalRatings}
                 />
               </View>
             ))}
           </View>
         </View>
       </View>
+
       <FlatList
         data={reviews}
         renderItem={({item}) => <ReviewItem review={item} />}
         keyExtractor={item => item.id}
       />
+
+      <View>
+        <TouchableOpacity
+          style={styles.writeReviewBtn}
+          onPress={handleOpenModal}>
+          <Icon name={'pencil-square-o'} style={styles.writeReviewBtnIcon} />
+          <Text style={styles.writeReviewBtnTxt}>Write a review</Text>
+        </TouchableOpacity>
+      </View>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(false);
+        }}>
+        <View style={styles.modalContainer}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalTitle}>Write a review</Text>
+
+            <TextInput
+              style={styles.modalInput}
+              placeholder="Review Text"
+              multiline={true}
+              onChangeText={text => setReviewText(text)}
+              value={reviewText}
+            />
+
+            <View style={styles.ratingContainer}>
+              {[1, 2, 3, 4, 5].map(star => (
+                <TouchableOpacity
+                  key={star}
+                  style={styles.ratingBtn}
+                  onPress={() => setRating(star)}>
+                  <Icon
+                    name={star <= rating ? 'star' : 'star-o'}
+                    size={30}
+                    color={star <= rating ? '#FFD700' : '#E0E0E0'}
+                  />
+                </TouchableOpacity>
+              ))}
+            </View>
+            <Text style={styles.ratingText}>Rating: {rating}</Text>
+
+            <TouchableOpacity
+              style={styles.imageUploadBtn}
+              onPress={handleImageUpload}>
+              <Text style={styles.imageUploadBtnText}>Upload Image</Text>
+            </TouchableOpacity>
+
+            {image && (
+              <Image source={{uri: image}} style={styles.uploadedImage} />
+            )}
+
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                style={styles.cancelBtn}
+                onPress={() => setModalVisible(false)}>
+                <Text style={styles.cancelBtnText}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.submitBtn} onPress={handleSubmit}>
+                <Text style={styles.submitBtnText}>Submit</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -234,7 +334,7 @@ const styles = StyleSheet.create({
   userName: {
     fontWeight: 'bold',
     marginBottom: 4,
-    color: '#666666'
+    color: '#666666',
   },
   ratingBar: {
     flexDirection: 'row',
@@ -247,7 +347,132 @@ const styles = StyleSheet.create({
   },
   reviewText: {
     fontSize: 14,
-    color: '#666666'
+    color: '#666666',
+  },
+  writeReviewBtn: {
+    position: 'absolute',
+    bottom: height * 0.05,
+    right: width * 0.05,
+    backgroundColor: '#0975b0',
+    padding: Math.min(width, height) * 0.035,
+    borderRadius: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  writeReviewBtnIcon: {
+    color: '#fff',
+    fontWeight: 'semiBold',
+    fontSize: 13,
+    marginRight: width * 0.01,
+  },
+  writeReviewBtnTxt: {
+    color: '#fff',
+    fontWeight: 'semiBold',
+    fontSize: 13,
+    textTransform: 'uppercase',
+  },
+
+  // modal css
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalView: {
+    width: '100%',
+    position: 'absolute',
+    bottom: height * 0,
+    backgroundColor: 'white',
+    borderTopEndRadius: 20,
+    borderTopLeftRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 15,
+  },
+  modalInput: {
+    height: 100,
+    width: '100%',
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 10,
+    padding: 10,
+    marginBottom: 15,
+    textAlignVertical: 'top',
+  },
+  ratingContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: 15,
+  },
+  ratingBtn: {
+    padding: 5,
+  },
+  ratingText: {
+    fontSize: 18,
+    marginBottom: 15,
+  },
+  imageUploadBtn: {
+    backgroundColor: '#4CAF50',
+    borderRadius: 10,
+    padding: 10,
+    elevation: 2,
+    marginBottom: 15,
+  },
+  imageUploadBtnText: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  uploadedImage: {
+    width: 200,
+    height: 150,
+    resizeMode: 'cover',
+    marginBottom: 15,
+    borderRadius: 10,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  cancelBtn: {
+    backgroundColor: '#FF6347',
+    borderRadius: 10,
+    padding: 10,
+    elevation: 2,
+    flex: 1,
+    marginRight: 5,
+  },
+  submitBtn: {
+    backgroundColor: '#4CAF50',
+    borderRadius: 10,
+    padding: 10,
+    elevation: 2,
+    flex: 1,
+    marginLeft: 5,
+  },
+  cancelBtnText: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  submitBtnText: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
 

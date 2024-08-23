@@ -2,14 +2,14 @@ import {Link} from '@react-navigation/native';
 import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 const {width, height} = Dimensions.get('window');
-const Navbar = ({title, linkTxt}) => {
+const Navbar = ({titleName, LinkText}) => {
   return (
     <>
       <View style={styles.header}>
-        <Link to={linkTxt}>
+        <Link to={LinkText}>
           <Icon name="angle-left" size={24} color="#333333" />
         </Link>
-        <Text style={styles.headerTitle}>{title}</Text>
+        <Text style={styles.headerTitle}>{titleName}</Text>
         <Icon name="search" size={18} color="#333333" />
       </View>
     </>

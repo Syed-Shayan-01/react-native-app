@@ -178,7 +178,7 @@ const ProductPage = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Navbar title={'Products'} />
+      <Navbar titleName={'Products'} LinkText={'/Home'}/>
       <View style={styles.categoryContainer}>
         {['T-shirts', 'Crop tops', 'Blouses', 'Shirts'].map(category => (
           <TouchableOpacity key={category} style={styles.categoryButton}>

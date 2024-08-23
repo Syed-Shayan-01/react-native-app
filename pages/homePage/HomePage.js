@@ -133,7 +133,7 @@ const HomePage = () => {
   return (
     <>
       <View style={{flex: 1}}>
-        <Navbar title={'Home'} linkTxt={'/TitlePage'} />
+        <Navbar titleName={'Home'} LinkText={'/TitlePage'} />
         <FlatList
           data={[1, 1]}
           renderItem={({item, index}) => {
