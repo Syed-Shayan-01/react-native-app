@@ -10,11 +10,14 @@ import {
   TextInput,
   Modal,
   Alert,
+  ScrollView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Font6Icon from 'react-native-vector-icons/FontAwesome6';
 import {Link, useRoute} from '@react-navigation/native';
 import axios from 'axios';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
+import FooterButton from '../../components/button/Button';
 const {width, height} = Dimensions.get('window');
 
 const RatingBar = ({rating}) => {
@@ -113,6 +116,10 @@ const ReviewPage = () => {
   const handleOpenModal = () => {
     setModalVisible(true);
   };
+
+  const handleCloseModal = () => {
+    setModalVisible(false);
+  };
   const reviews = [
     {
       id: '1',
@@ -139,6 +146,12 @@ const ReviewPage = () => {
       text: 'The dress is great! Very classy and comfortable. It fit perfectly! and 130 pounds. I am a 34B chest. This dress would be too long for those who are shorter but could be hemmed. I wouldt recommend it for those who are much shorter than  as it would be too long all over. The dress was made well.',
     },
   ];
+
+  const images = {
+    id: '1',
+    image: require('../../public/images/apple.jpg'),
+    // image: require('../../public/images/image.jpg'),
+  };
 
   const ratings = [100, 40, 19, 50, 50];
   const totalRatings = ratings.reduce((sum, rating) => sum + rating, 0);
@@ -199,14 +212,6 @@ const ReviewPage = () => {
           <View style={styles.modalView}>
             <Text style={styles.modalTitle}>Write a review</Text>
 
-            <TextInput
-              style={styles.modalInput}
-              placeholder="Review Text"
-              multiline={true}
-              onChangeText={text => setReviewText(text)}
-              value={reviewText}
-            />
-
             <View style={styles.ratingContainer}>
               {[1, 2, 3, 4, 5].map(star => (
                 <TouchableOpacity
@@ -221,27 +226,36 @@ const ReviewPage = () => {
                 </TouchableOpacity>
               ))}
             </View>
-            <Text style={styles.ratingText}>Rating: {rating}</Text>
-
+            <TextInput
+              style={styles.modalInput}
+              placeholder="Review Text"
+              multiline={true}
+              onChangeText={text => setReviewText(text)}
+              value={reviewText}
+            />
             <TouchableOpacity
-              style={styles.imageUploadBtn}
-              onPress={handleImageUpload}>
-              <Text style={styles.imageUploadBtnText}>Upload Image</Text>
+              style={styles.crossModalIconBtn}
+              onPress={handleCloseModal}>
+              <Text>
+                <Font6Icon name={'xmark'} style={styles.crossModalIcon} />
+              </Text>
             </TouchableOpacity>
-
-            {image && (
-              <Image source={{uri: image}} style={styles.uploadedImage} />
-            )}
-
-            <View style={styles.buttonContainer}>
+            <View style={styles.imageUploadBtnContainer}>
               <TouchableOpacity
-                style={styles.cancelBtn}
-                onPress={() => setModalVisible(false)}>
-                <Text style={styles.cancelBtnText}>Cancel</Text>
+                style={styles.imageUploadBtn}
+                onPress={handleImageUpload}>
+                <Text>
+                  <Icon name={'image'} style={styles.imageUploadBtnIconText} />
+                </Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.submitBtn} onPress={handleSubmit}>
-                <Text style={styles.submitBtnText}>Submit</Text>
-              </TouchableOpacity>
+              <Text style={styles.addYouPhotoText}>Add your Photos</Text>
+            </View>
+            <View style={styles.ModalImageContainer}>
+              <Image source={images.image} style={styles.uploadedImage} />
+              <Image source={images.image} style={styles.uploadedImage} />
+            </View>
+            <View>
+              <FooterButton btnTxt={'Submit Button'} onPress={handleSubmit} />
             </View>
           </View>
         </View>
@@ -400,79 +414,77 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 15,
+    marginBottom: height * 0.02,
+    color: '#333333',
   },
   modalInput: {
-    height: 100,
-    width: '100%',
-    borderColor: 'gray',
-    borderWidth: 1,
+    height: height * 0.2,
+    width: width * 0.9,
     borderRadius: 10,
-    padding: 10,
-    marginBottom: 15,
+    shadowColor: '#000',
+    elevation: 1,
+    padding: Math.min(width, height) * 0.02,
+    marginBottom: height * 0.02,
     textAlignVertical: 'top',
   },
   ratingContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: 15,
+    marginBottom: height * 0.02,
   },
   ratingBtn: {
-    padding: 5,
+    padding: Math.min(width, height) * 0.02,
   },
-  ratingText: {
-    fontSize: 18,
-    marginBottom: 15,
+  imageUploadBtnContainer: {
+    marginBottom: height * 0.02,
+    elevation: 1,
+    padding: Math.min(width, height) * 0.04,
+    borderRadius: Math.min(width, height) * 0.04,
+    alignItems: 'center',
+    position: 'relative',
+    right: width * 0.3,
   },
   imageUploadBtn: {
-    backgroundColor: '#4CAF50',
-    borderRadius: 10,
-    padding: 10,
+    borderRadius: 100,
+    padding: Math.min(width, height) * 0.04,
     elevation: 2,
-    marginBottom: 15,
+    alignSelf: 'center',
+    backgroundColor: '#0975b0',
   },
-  imageUploadBtnText: {
+  imageUploadBtnIconText: {
     color: 'white',
     fontWeight: 'bold',
+    fontSize: Math.min(width, height) * 0.05,
     textAlign: 'center',
+  },
+  addYouPhotoText: {
+    fontSize: Math.min(width, height) * 0.03,
+    fontWeight: 'bold',
+    color: '#666666',
+  },
+  crossModalIconBtn: {
+    position: 'absolute',
+    right: width * 0.05,
+    top: height * 0.06,
+    borderRadius: 100,
+  },
+  crossModalIcon: {
+    color: '#333333',
+    fontWeight: 'bold',
+    fontSize: Math.min(width, height) * 0.06,
+    textAlign: 'center',
+  },
+  ModalImageContainer: {
+    flexDirection: 'row',
+    position: 'relative',
+    right: width * 0.17,
   },
   uploadedImage: {
-    width: 200,
-    height: 150,
+    width: Math.min(width, height) * 0.25,
+    height: Math.min(width, height) * 0.25,
     resizeMode: 'cover',
-    marginBottom: 15,
     borderRadius: 10,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-  },
-  cancelBtn: {
-    backgroundColor: '#FF6347',
-    borderRadius: 10,
-    padding: 10,
-    elevation: 2,
-    flex: 1,
-    marginRight: 5,
-  },
-  submitBtn: {
-    backgroundColor: '#4CAF50',
-    borderRadius: 10,
-    padding: 10,
-    elevation: 2,
-    flex: 1,
-    marginLeft: 5,
-  },
-  cancelBtnText: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  submitBtnText: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
+    marginHorizontal: width * 0.02,
   },
 });
 
