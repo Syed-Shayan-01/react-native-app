@@ -62,22 +62,26 @@ const HomePage = () => {
   const [error, setError] = useState(null); // State to handle errors
 
   useEffect(() => {
-    // Define an async function inside useEffect
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://fakestoreapi.com/products/');
-        setData(response.data); // Set the array of books
+        const response = await fetch(
+          'https://api.escuelajs.co/api/v1/products',
+        );
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log('Fetched data:', data);
+        setData(data);
       } catch (err) {
-        setError(err); // Handle errors
+        console.log('Error fetching data:', err);
+        setError(err);
       } finally {
-        setLoading(false); // Set loading to false once the request is complete
+        setLoading(false);
       }
     };
-
-    // Call the async function
     fetchData();
-  }, []); // Empty dependency array means this effect runs once on mount
-
+  });
   if (loading) {
     return (
       <ActivityIndicator
@@ -89,32 +93,40 @@ const HomePage = () => {
   }
 
   if (error) {
-    return <Text>Error: {error.message}</Text>; // Show error message if an error occurs
+    return (
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <Text style={{color: 'red', fontSize: 18}}>{error.message}</Text>
+        <TouchableOpacity onPress={() => setLoading(true)}>
+          <Text style={{color: '#0975b0', marginTop: 10}}>Retry</Text>
+        </TouchableOpacity>
+      </View>
+    );
   }
 
   if (data.length === 0) {
     return <Text>No data available</Text>; // Handle case where no data is available
   }
 
-  // Render each item in the FlatList
   const renderItem = ({item}) => (
     <View style={styles.card}>
       <Image
-        source={{uri: item.image}} // Use the image URL from the API response
+        source={{uri: item.images ? item.images[0] : ''}} // Safeguard against missing images
         style={styles.image}
       />
       <View style={styles.details}>
         <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
-          {item.title}
+          {item.title || 'No Title'} {/* Safeguard against missing title */}
         </Text>
         <Text style={styles.author} numberOfLines={1}>
-          Category: {item.category || 'Unknown'}
+          Category: {item.category?.name || 'Unknown'}{' '}
+          {/* Update according to your data structure */}
         </Text>
         <View style={styles.ratingreviewContainer}>
-          <StarRating rating={item.rating.rate} />
-          <Text style={styles.reviewCount}>({item.rating.count})</Text>
+          <StarRating rating={item.rating?.rate || 0} />{' '}
+          {/* Safeguard against missing rating */}
+          <Text style={styles.reviewCount}>({item.rating?.count || 0})</Text>
         </View>
-        <Text style={styles.price}>${item.price}</Text>
+        <Text style={styles.price}>${item.price || 'N/A'}</Text>
       </View>
       <View style={styles.buttons}>
         <TouchableOpacity style={[styles.button, styles.buttonPrimary]}>
