@@ -438,7 +438,7 @@ const styles = StyleSheet.create({
   imageUploadBtnContainer: {
     marginBottom: height * 0.02,
     elevation: 1,
-    padding: Math.min(width, height) * 0.04,
+    padding: Math.min(width, height) * 0.03,
     borderRadius: Math.min(width, height) * 0.04,
     alignItems: 'center',
     position: 'relative',
@@ -461,6 +461,7 @@ const styles = StyleSheet.create({
     fontSize: Math.min(width, height) * 0.03,
     fontWeight: 'bold',
     color: '#666666',
+    marginTop: height * 0.01
   },
   crossModalIconBtn: {
     position: 'absolute',
