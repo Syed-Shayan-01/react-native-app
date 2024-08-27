@@ -15,6 +15,8 @@ import {
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import {CartContext} from '../../components/context/CartContext';
+import Navbar from '../../components/navbar/Navbar';
+import {Link, useNavigation} from '@react-navigation/native';
 const {width, height} = Dimensions.get('window');
 
 // Initial data with quantity field
@@ -58,6 +60,7 @@ const initialData = [
 ];
 
 const ProductCard = () => {
+  const navigation = useNavigation();
   const {cartItems} = useContext(CartContext);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -162,16 +165,11 @@ const ProductCard = () => {
 
   return (
     <>
-      <View style={styles.navbar}>
-        <Text style={styles.backButton}>
-          <AntDesign name="left" style={styles.menuicon} />
-        </Text>
-        <Text style={styles.homeTxt}>My Bag</Text>
-        <Text style={styles.deleteButton}>
-          <AntDesign name="delete" style={styles.userIcon} />
-        </Text>
-      </View>
-
+      <Navbar
+        titleName={'Add to Cart'}
+        LinkText={'/Home'}
+        IconRight={'trash-o'}
+      />
       <FlatList
         data={cartItems}
         renderItem={renderItem}
@@ -190,7 +188,13 @@ const ProductCard = () => {
         })}
 
         <TouchableOpacity style={styles.checkOutButton}>
-          <Text style={styles.buttonText}>Check Out</Text>
+          <Text
+            style={styles.buttonText}
+            onPress={() => {
+              navigation.navigate('CheckOut');
+            }}>
+            Check Out
+          </Text>
         </TouchableOpacity>
       </View>
     </>

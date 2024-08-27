@@ -8,6 +8,7 @@ import BuyPage from '../../pages/buyPage/BuyPage';
 import ReviewPage from '../../pages/Ratings/Ratings';
 import Profile from '../../pages/profile/Profile';
 import ProductPage from '../../pages/productsPage/ProductsPage';
+import CheckoutScreen from '../../pages/ChectOutPage/Checkout';
 
 const Stack = createNativeStackNavigator();
 
@@ -48,6 +49,11 @@ const StackNavigator = () => {
         <Stack.Screen
           name="ProductPage"
           component={ProductPage}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="CheckOut"
+          component={CheckoutScreen}
           options={{headerShown: false}}
         />
         <Stack.Screen

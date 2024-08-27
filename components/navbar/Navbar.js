@@ -1,33 +1,53 @@
 import {Link} from '@react-navigation/native';
-import {View, Text, StyleSheet, Dimensions} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-const {width, height} = Dimensions.get('window');
-const Navbar = ({titleName, LinkText}) => {
+import React from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Dimensions,
+} from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome'; // Or whichever icon library you're using
+
+const {width} = Dimensions.get('window');
+
+const Navbar = ({LinkText, titleName, IconRight}) => {
   return (
-    <>
-      <View style={styles.header}>
-        <Link to={LinkText}>
-          <Icon name="angle-left" size={24} color="#333333" />
-        </Link>
-        <Text style={styles.headerTitle}>{titleName}</Text>
-        <Icon name="search" size={18} color="#333333" />
-      </View>
-    </>
+    <View style={styles.headerContainer}>
+      <Link to={LinkText} style={styles.iconContainer}>
+        <Icon name="angle-left" size={24} style={styles.icon} />
+      </Link>
+      <Text style={styles.title}>{titleName}</Text>
+      <TouchableOpacity
+        onPress={() => alert('Trash Icon Pressed')}
+        style={styles.iconContainer}>
+        <Icon name={IconRight} size={22} style={styles.icon} />
+      </TouchableOpacity>
+    </View>
   );
 };
+
 const styles = StyleSheet.create({
-  header: {
+  headerContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: Math.min(width, height) * 0.04,
-    borderBottomWidth: 1,
-    borderBottomColor: '#EEEEEE',
+    height: 60,
+    backgroundColor: '#fff', // You can set your background color here
+    paddingHorizontal: width * 0.04,
   },
-  headerTitle: {
-    fontSize: Math.min(width, height) * 0.05,
+  iconContainer: {
+    padding: 10,
+  },
+  icon: {
+    color: '#333333',
+    fontWeight: 'bold',
+  },
+  title: {
+    fontSize: 18,
     fontWeight: 'bold',
     color: '#333333',
   },
 });
+
 export default Navbar;

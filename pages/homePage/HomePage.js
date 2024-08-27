@@ -64,15 +64,13 @@ const HomePage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          'https://api.escuelajs.co/api/v1/products',
-        );
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+        const response = await axios({
+          method: 'get',
+          url: 'https://fakestoreapi.com/products/',
+        });
+        if (response.data) {
+          setData(response.data);
         }
-        const data = await response.json();
-        console.log('Fetched data:', data);
-        setData(data);
       } catch (err) {
         console.log('Error fetching data:', err);
         setError(err);
@@ -81,7 +79,7 @@ const HomePage = () => {
       }
     };
     fetchData();
-  });
+  }, []);
   if (loading) {
     return (
       <ActivityIndicator
@@ -103,49 +101,54 @@ const HomePage = () => {
     );
   }
 
-  if (data.length === 0) {
-    return <Text>No data available</Text>; // Handle case where no data is available
+  if (!data || data.length === 0) {
+    return (
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <Text>No data available.</Text>
+      </View>
+    );
   }
-
-  const renderItem = ({item}) => (
-    <View style={styles.card}>
-      <Image
-        source={{uri: item.images ? item.images[0] : ''}} // Safeguard against missing images
-        style={styles.image}
-      />
-      <View style={styles.details}>
-        <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
-          {item.title || 'No Title'} {/* Safeguard against missing title */}
-        </Text>
-        <Text style={styles.author} numberOfLines={1}>
-          Category: {item.category?.name || 'Unknown'}{' '}
-          {/* Update according to your data structure */}
-        </Text>
-        <View style={styles.ratingreviewContainer}>
-          <StarRating rating={item.rating?.rate || 0} />{' '}
-          {/* Safeguard against missing rating */}
-          <Text style={styles.reviewCount}>({item.rating?.count || 0})</Text>
-        </View>
-        <Text style={styles.price}>${item.price || 'N/A'}</Text>
-      </View>
-      <View style={styles.buttons}>
-        <TouchableOpacity style={[styles.button, styles.buttonPrimary]}>
-          <Text
-            style={styles.buttonText}
-            onPress={() => navigation.navigate('BuyPage', {item})}>
-            Buy Now
+  const renderItem = ({item}) => {
+    return (
+      <View style={styles.card}>
+        <Image
+          source={{uri: item.image ? item.image : ''}} // Safeguard against missing images
+          style={styles.image}
+        />
+        <View style={styles.details}>
+          <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
+            {item.title || 'No Title'} {/* Safeguard against missing title */}
           </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Add to Cart</Text>
-        </TouchableOpacity>
+          <Text style={styles.author} numberOfLines={1}>
+            Category: {item.category?.name || 'Unknown'}
+            {/* Update according to your data structure */}
+          </Text>
+          <View style={styles.ratingreviewContainer}>
+            <StarRating rating={item.rating?.rate || 0} />
+            {/* Safeguard against missing rating */}
+            <Text style={styles.reviewCount}>({item.rating?.count || 0})</Text>
+          </View>
+          <Text style={styles.price}>${item.price || 'N/A'}</Text>
+        </View>
+        <View style={styles.buttons}>
+          <TouchableOpacity style={[styles.button, styles.buttonPrimary]}>
+            <Text
+              style={styles.buttonText}
+              onPress={() => navigation.navigate('BuyPage', {item})}>
+              Buy Now
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>Add to Cart</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
-  );
+    );
+  };
   return (
     <>
       <View style={{flex: 1}}>
-        <Navbar titleName={'Home'} LinkText={'/TitlePage'} />
+        <Navbar titleName={'Home'} LinkText={'/TitlePage'} IconRight={'shopping-bag'}/>
         <FlatList
           data={[1, 1]}
           renderItem={({item, index}) => {
@@ -226,7 +229,7 @@ const HomePage = () => {
                     <FlatList
                       data={data.slice(1, 5)}
                       renderItem={renderItem}
-                      keyExtractor={item => item.id}
+                      keyExtractor={item => item.id.toString()}
                       showsHorizontalScrollIndicator={false}
                     />
                   </View>
