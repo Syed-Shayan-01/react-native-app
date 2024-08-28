@@ -1,202 +1,123 @@
-import React, {memo} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
-
-const SectionTitle = memo(({title}) => (
-  <Text style={styles.sectionTitle}>{title}</Text>
-));
-
-const ChangeLink = memo(() => (
-  <TouchableOpacity>
-    <Text style={styles.changeLink}>Change</Text>
-  </TouchableOpacity>
-));
-
-const AddressSection = memo(() => (
-  <View style={styles.section}>
-    <SectionTitle title="Shipping address" />
-    <View style={{elevation: 30, shadowColor: '#333', marginHorizontal: 20 
-     }}>
-      <Text style={styles.addressText}>Jane Doe</Text>
-      <Text style={styles.addressText}>3 Newbridge Court</Text>
-      <Text style={styles.addressText}>
-        Chino Hills, CA 91709, United States
-      </Text>
-      <ChangeLink />
-    </View>
-  </View>
-));
-
-const PaymentSection = memo(() => (
-  <View style={styles.section}>
-    <SectionTitle title="Payment" />
-    <View style={styles.paymentRow}>
-      <Image
-        source={{
-          uri: 'https://w7.pngwing.com/pngs/648/903/png-transparent-mastercard-logo-logo-payment-visa-mastercard-paypal-mastercard-icon-text-service-mobile-payment-thumbnail.png',
-        }}
-        style={styles.cardLogo}
-      />
-      <Text style={styles.cardNumber}>**** **** **** 3947</Text>
-    </View>
-    <ChangeLink />
-  </View>
-));
-
-const DeliverySection = memo(() => (
-  <View style={styles.section}>
-    <SectionTitle title="Delivery method" />
-    <View style={styles.deliveryOptions}>
-      {/* <Image
-        source={require('./assets/fedex-logo.png')}
-        style={styles.deliveryLogo}
-      />
-      <Image
-        source={require('./assets/usps-logo.png')}
-        style={styles.deliveryLogo}
-      />
-      <Image
-        source={require('./assets/dhl-logo.png')}
-        style={styles.deliveryLogo}
-      /> */}
-    </View>
-    <Text style={styles.deliveryTime}>2-3 days</Text>
-  </View>
-));
-
-const SummaryRow = memo(({label, value, bold}) => (
-  <View style={styles.summaryRow}>
-    <Text style={bold ? styles.summaryTextBold : styles.summaryText}>
-      {label}
-    </Text>
-    <Text style={bold ? styles.summaryValueBold : styles.summaryValue}>
-      {value}
-    </Text>
-  </View>
-));
-
-const OrderSummary = memo(() => (
-  <View style={styles.orderSummary}>
-    <SummaryRow label="Order:" value="112$" />
-    <SummaryRow label="Delivery:" value="15$" />
-    <SummaryRow label="Summary:" value="127$" bold />
-  </View>
-));
-
-const SubmitButton = memo(() => (
-  <TouchableOpacity style={styles.submitButton}>
-    <Text style={styles.submitButtonText}>SUBMIT ORDER</Text>
-  </TouchableOpacity>
-));
-
-const CheckoutScreen = () => {
+import {View, Text, StyleSheet, Dimensions, Image} from 'react-native';
+import Navbar from '../../components/navbar/Navbar';
+import {Link} from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+const {width, height} = Dimensions.get('window');
+export default function CheckoutScreen() {
   return (
-    <ScrollView style={styles.container}>
-      <Text style={styles.header}>Checkout</Text>
-      <AddressSection />
-      <PaymentSection />
-      <DeliverySection />
-      <OrderSummary />
-      <SubmitButton />
-    </ScrollView>
+    <>
+      <View>
+        <Navbar titleName={'Check Out'} LinkText={`/Cart`} />
+      </View>
+
+      <View style={styles.containerShipping}>
+        <View>
+          <Text style={styles.headingTxt}>Shipping Address</Text>
+        </View>
+
+        <View style={styles.addressContainer}>
+          <Text style={styles.authorName}>Syed Shayan</Text>
+          <View style={styles.homeAddressContainer}>
+            <Icon
+              name={'home'}
+              size={17}
+              style={{
+                color: '#0975b0',
+                fontSize: Math.min(width, height) * 0.05,
+              }}
+            />
+
+            <Text style={styles.homeAddress}>House No. 117, Sector 13 A</Text>
+          </View>
+
+          <Text style={styles.nearestAddress}>
+            fujljaofjjsjfajlajuohuoguosogfjjhghkhjghkghfkhgfhdhghdkhfghkhdjkgsjhjhdgfjhkdfkghdkfk
+          </Text>
+          <Link to={''} style={styles.changeTxt}>
+            Change
+          </Link>
+        </View>
+      </View>
+      <View>
+        <View style={styles.containerShipping}>
+          <Text style={styles.headingTxt}>Payment</Text>
+        </View>
+
+        <View style={styles.addressContainer}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <View>
+              <Image
+                source={{
+                  uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFZtsFJjL4jN9mdptS_gggmHxmEtrv_uVWHQ&s',
+                }}
+                style={{
+                  width: width * 0.08,
+                  height: height * 0.04,
+                  resizeMode: 'cover',
+                  marginRight: 10
+                }}
+              />
+            </View>
+
+            <Text style={styles.nearestAddress}>479283*********</Text>
+          </View>
+          
+          <Link to={''} style={styles.changeTxt}>
+            Change
+          </Link>
+        </View>
+      </View>
+    </>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-    padding: 20,
+  containerShipping: {
+    padding: Math.min(width, height) * 0.04,
   },
-  header: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  section: {
-    marginBottom: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#E0E0E0',
-    paddingBottom: 15,
-  },
-  sectionTitle: {
-    fontSize: 18,
+  headingTxt: {
+    fontSize: Math.min(width, height) * 0.045,
     fontWeight: 'bold',
     marginBottom: 10,
+    color: '#333333',
   },
-  addressText: {
-    fontSize: 16,
-    marginBottom: 2,
+  addressContainer: {
+    elevation: 3,
+    backgroundColor: 'white',
+    marginHorizontal: width * 0.04,
+    paddingHorizontal: width * 0.04,
+    paddingVertical: height * 0.015,
+    borderRadius: Math.min(width, height) * 0.02,
   },
-  changeLink: {
-    color: 'red',
-    marginTop: 5,
+  authorName: {
+    fontSize: Math.min(width, height) * 0.04,
+    fontWeight: 'bold',
+    marginBottom: height * 0.004,
+    color: '#666666',
   },
-  paymentRow: {
+  homeAddressContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  cardLogo: {
-    width: 40,
-    height: 25,
-    marginRight: 10,
+  homeAddress: {
+    fontSize: Math.min(width, height) * 0.035,
+    color: '#666',
+    marginLeft: width * 0.02,
+    textAlign: 'justify',
   },
-  cardNumber: {
-    fontSize: 16,
+  nearestAddress: {
+    fontSize: Math.min(width, height) * 0.035,
+    color: '#666',
+    marginTop: height * 0.005,
+    lineHeight: Math.min(width, height) * 0.045,
   },
-  deliveryOptions: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 10,
-  },
-  deliveryLogo: {
-    width: 60,
-    height: 30,
-    resizeMode: 'contain',
-  },
-  deliveryTime: {
-    fontSize: 14,
-    color: '#888',
-  },
-  orderSummary: {
-    marginBottom: 20,
-  },
-  summaryRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 5,
-  },
-  summaryText: {
-    fontSize: 16,
-  },
-  summaryValue: {
-    fontSize: 16,
-  },
-  summaryTextBold: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  summaryValueBold: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  submitButton: {
-    backgroundColor: 'red',
-    padding: 15,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  submitButtonText: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: 'bold',
+  changeTxt: {
+    position: 'absolute',
+    right: width * 0.04,
+    top: height * 0.02,
+    fontSize: Math.min(width, height) * 0.032,
+    fontWeight: '800',
+    color: '#0975b0',
+    letterSpacing: 0.3,
   },
 });
-
-export default memo(CheckoutScreen);

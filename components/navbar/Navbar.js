@@ -18,11 +18,13 @@ const Navbar = ({LinkText, titleName, IconRight}) => {
         <Icon name="angle-left" size={24} style={styles.icon} />
       </Link>
       <Text style={styles.title}>{titleName}</Text>
-      <TouchableOpacity
-        onPress={() => alert('Trash Icon Pressed')}
-        style={styles.iconContainer}>
-        <Icon name={IconRight} size={22} style={styles.icon} />
-      </TouchableOpacity>
+      {IconRight && (
+        <TouchableOpacity
+          onPress={() => alert('Trash Icon Pressed')}
+          style={styles.iconContainer}>
+          <Icon name={IconRight} size={22} style={styles.icon} />
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
@@ -44,6 +46,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   title: {
+    margin: 'auto',
     fontSize: 18,
     fontWeight: 'bold',
     color: '#333333',
