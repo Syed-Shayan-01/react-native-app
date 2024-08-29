@@ -14,12 +14,11 @@ import FooterButton from '../../components/button/Button';
 const {width, height} = Dimensions.get('window');
 export default function CheckoutScreen() {
   return (
-    <View style={{flex : 1}}>
+    <View style={{flex: 1}}>
+      <View>
+        <Navbar titleName={'Check Out'} LinkText={`/Cart`} />
+      </View>
       <ScrollView>
-        <View>
-          <Navbar titleName={'Check Out'} LinkText={`/Cart`} />
-        </View>
-
         <View style={styles.containerShipping}>
           <View>
             <Text style={styles.headingTxt}>Shipping Address</Text>
