@@ -11,8 +11,39 @@ import Navbar from '../../components/navbar/Navbar';
 import {Link} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FooterButton from '../../components/button/Button';
+import PaymentMethodModal from '../../components/paymentModal/PaymentModal';
+import {useState} from 'react';
+import ShippingAddressModal from '../../components/shippingAddressModal/ShippingAddressModal';
 const {width, height} = Dimensions.get('window');
 export default function CheckoutScreen() {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState({
+    cardNumber: '479283*********',
+    cardName: 'John Doe',
+  });
+  const [isShippingModalVisible, setIsShippingModalVisible] = useState(false);
+  const [shippingAddress, setShippingAddress] = useState({
+    name: 'Syed Shayan',
+    street: 'House No. 117, Sector 13 A',
+    city: 'Your City',
+    state: 'Your State',
+    zipCode: 'Your Zip',
+  });
+  const handleOpenModal = () => setIsModalVisible(true);
+  const handleCloseModal = () => setIsModalVisible(false);
+
+  const handleSavePaymentMethod = newPaymentMethod => {
+    setPaymentMethod(newPaymentMethod);
+    // Here you can also update your backend or perform any other necessary actions
+  };
+
+  const handleOpenShippingModal = () => setIsShippingModalVisible(true);
+  const handleCloseShippingModal = () => setIsShippingModalVisible(false);
+
+  const handleSaveShippingAddress = newAddress => {
+    setShippingAddress(newAddress);
+    // Here you can also update your backend or perform any other necessary actions
+  };
   return (
     <View style={{flex: 1}}>
       <View>
@@ -25,7 +56,7 @@ export default function CheckoutScreen() {
           </View>
 
           <View style={styles.addressContainer}>
-            <Text style={styles.authorName}>Syed Shayan</Text>
+            <Text style={styles.authorName}>{shippingAddress.name}</Text>
             <View style={styles.homeAddressContainer}>
               <Icon
                 name={'home'}
@@ -35,16 +66,16 @@ export default function CheckoutScreen() {
                   fontSize: Math.min(width, height) * 0.05,
                 }}
               />
-
-              <Text style={styles.homeAddress}>House No. 117, Sector 13 A</Text>
+              <Text style={styles.homeAddress}>{shippingAddress.street}</Text>
             </View>
-
             <Text style={styles.nearestAddress}>
-              fujljaofjjsjfajlajuohuoguosogfjjhghkhjghkghfkhgfhdhghdkhfghkhdjkgsjhjhdgfjhkdfkghdkfk
+              {`${shippingAddress.city}, ${shippingAddress.state} ${shippingAddress.zipCode}`}
             </Text>
-            <Link to={''} style={styles.changeTxt}>
-              Change
-            </Link>
+            <TouchableOpacity
+              style={styles.changeBtn}
+              onPress={handleOpenShippingModal}>
+              <Text style={styles.changeTxt}>Change</Text>
+            </TouchableOpacity>
           </View>
         </View>
 
@@ -69,13 +100,20 @@ export default function CheckoutScreen() {
                 />
               </View>
               <View>
-                <Text style={styles.cardAddress}>479283*********</Text>
+                <Text style={styles.cardAddress}>
+                  {paymentMethod.cardNumber.slice(0, 5)}************
+                </Text>
               </View>
             </View>
 
-            <Link to={''} style={styles.changeTxt}>
-              Change
-            </Link>
+            <TouchableOpacity
+              // to={''}
+              style={styles.changeBtn}
+              onPress={() => {
+                handleOpenModal();
+              }}>
+              <Text style={styles.changeTxt}> Change</Text>
+            </TouchableOpacity>
           </View>
         </View>
 
@@ -225,6 +263,19 @@ export default function CheckoutScreen() {
         color="#0975b0"
         textColor="white"
       />
+
+      <PaymentMethodModal
+        isVisible={isModalVisible}
+        onClose={handleCloseModal}
+        onSave={handleSavePaymentMethod}
+      />
+
+      <ShippingAddressModal
+        isVisible={isShippingModalVisible}
+        onClose={handleCloseShippingModal}
+        onSave={handleSaveShippingAddress}
+        currentAddress={shippingAddress}
+      />
     </View>
   );
 }
@@ -269,17 +320,20 @@ const styles = StyleSheet.create({
     marginTop: height * 0.005,
     lineHeight: Math.min(width, height) * 0.045,
   },
-  changeTxt: {
+  changeBtn: {
     position: 'absolute',
     right: width * 0.04,
     top: height * 0.02,
+  },
+
+  changeTxt: {
     fontSize: Math.min(width, height) * 0.032,
     fontWeight: '800',
     color: '#0975b0',
     letterSpacing: 0.3,
   },
 
-  // Payment
+  // Payment Method
 
   containerPayment: {
     padding: Math.min(width, height) * 0.04,
