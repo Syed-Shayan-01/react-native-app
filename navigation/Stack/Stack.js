@@ -15,7 +15,7 @@ const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="CheckOut">
+      <Stack.Navigator initialRouteName="Tabs">
         <Stack.Screen
           name="TitlePage"
           component={TitlePage}

@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Font6Icon from 'react-native-vector-icons/FontAwesome6';
-import {Link, useRoute} from '@react-navigation/native';
+import {Link, useNavigation, useRoute} from '@react-navigation/native';
 import axios from 'axios';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import FooterButton from '../../components/button/Button';
@@ -72,6 +72,7 @@ const calculateAverageRating = ratings => {
 };
 
 const ReviewPage = () => {
+  const navigation = useNavigation();
   const {params} = useRoute();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -160,9 +161,12 @@ const ReviewPage = () => {
   return (
     <View style={styles.container}>
       <View style={styles.navbar}>
-        <Link to={'/Home'}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}>
           <Icon name="angle-left" style={styles.menuicon} />
-        </Link>
+        </TouchableOpacity>
       </View>
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Rating & Reviews</Text>
@@ -254,10 +258,15 @@ const ReviewPage = () => {
               <Image source={images.image} style={styles.uploadedImage} />
               <Image source={images.image} style={styles.uploadedImage} />
             </View>
-            <View>
-              <FooterButton btnTxt={'Submit Button'} onPress={handleSubmit} />
-            </View>
           </View>
+        </View>
+        <View>
+          <FooterButton
+            title={'Submit Button'}
+            onPress={() => handleSubmit()}
+            color={'#0975b0'}
+            textColor={'white'}
+          />
         </View>
       </Modal>
     </View>
@@ -461,7 +470,7 @@ const styles = StyleSheet.create({
     fontSize: Math.min(width, height) * 0.03,
     fontWeight: 'bold',
     color: '#666666',
-    marginTop: height * 0.01
+    marginTop: height * 0.01,
   },
   crossModalIconBtn: {
     position: 'absolute',

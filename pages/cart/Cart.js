@@ -17,6 +17,7 @@ import EntypoIcon from 'react-native-vector-icons/Entypo';
 import {CartContext} from '../../components/context/CartContext';
 import Navbar from '../../components/navbar/Navbar';
 import {Link, useNavigation} from '@react-navigation/native';
+import FooterButton from '../../components/button/Button';
 const {width, height} = Dimensions.get('window');
 
 // Initial data with quantity field
@@ -61,22 +62,28 @@ const initialData = [
 
 const ProductCard = () => {
   const navigation = useNavigation();
-  const {cartItems} = useContext(CartContext);
+  const {cartItems, removeFromCart, updateCartQuantity} =
+    useContext(CartContext);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [count, setCount] = useState(1);
   const [data, setData] = useState(cartItems);
   // Increment handler
-  const handleChangeNumberPlus = () => {
-    setCount(prevCount => prevCount + 1);
-  };
+  // const handleChangeNumberPlus = (id, currentQuantity) => {
+  //   updateCartQuantity(id, currentQuantity + 1);
+  // };
 
-  // Decrement handler
-  const handleChangeNumberMinus = () => {
-    setCount(prevCount => (prevCount > 1 ? prevCount - 1 : prevCount));
-  };
+  // const handleChangeNumberMinus = (id, currentQuantity) => {
+  //   if (currentQuantity > 1) {
+  //     updateCartQuantity(id, currentQuantity - 1);
+  //   }
+  // };
 
+  const totalAmount = cartItems.reduce((sum, item) => {
+    const itemTotal = item.price * item.quantity; // Multiply price by quantity
+    return sum + itemTotal; // Sum up all the item totals
+  }, 0);
   const handleOptionsPress = (id, event) => {
     setSelectedItem(id);
     setModalVisible(true);
@@ -89,7 +96,7 @@ const ProductCard = () => {
 
   const handleDeleteFromList = () => {
     if (selectedItem) {
-      setData(prevData => prevData.filter(item => item.id !== selectedItem));
+      removeFromCart(selectedItem);
     }
     setModalVisible(false);
   };
@@ -141,19 +148,25 @@ const ProductCard = () => {
               <View style={styles.quantityContainer}>
                 <TouchableOpacity
                   style={styles.button}
-                  onPress={handleChangeNumberMinus}>
+                  onPress={() =>
+                    updateCartQuantity(item.id, item.quantity - 1)
+                  }>
                   <Text style={styles.quantityManageBtn}>-</Text>
                 </TouchableOpacity>
-                <Text style={styles.quantity}>{count}</Text>
+                <Text style={styles.quantity}>
+                  {item.quantity && !isNaN(item.quantity) ? item.quantity : 1}
+                </Text>
                 <TouchableOpacity
                   style={styles.button}
-                  onPress={handleChangeNumberPlus}>
+                  onPress={() =>
+                    updateCartQuantity(item.id, item.quantity + 1)
+                  }>
                   <Text style={styles.quantityManageBtn}>+</Text>
                 </TouchableOpacity>
               </View>
               <View style={styles.priceContainer}>
                 <Text style={styles.price}>
-                  {item.price.toFixed() * count}$
+                  {item.price * item.quantity}$
                 </Text>
               </View>
             </View>
@@ -176,27 +189,21 @@ const ProductCard = () => {
         keyExtractor={item => item.id.toString()}
       />
       <View style={styles.footer}>
-        {cartItems.map(item => {
-          return (
-            <TouchableOpacity style={styles.totalContainer}>
-              <Text style={styles.totalLabelText}>Total Amount:</Text>
-              <Text style={styles.totalValueText}>
-                ${item.price.toFixed() * count}
-              </Text>
-            </TouchableOpacity>
-          );
-        })}
-
-        <TouchableOpacity style={styles.checkOutButton}>
-          <Text
-            style={styles.buttonText}
-            onPress={() => {
-              navigation.navigate('CheckOut');
-            }}>
-            Check Out
-          </Text>
+        <TouchableOpacity style={styles.totalContainer}>
+          <Text style={styles.totalLabelText}>Total Amount:</Text>
+          <Text style={styles.totalValueText}>${totalAmount}</Text>
         </TouchableOpacity>
       </View>
+      {cartItems && (
+        <FooterButton
+          title={'Check Out'}
+          color={'#0975b0'}
+          textColor={'white'}
+          onPress={() => {
+            navigation.navigate('CheckOut');
+          }}
+        />
+      )}
     </>
   );
 };
@@ -317,23 +324,26 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   footer: {
-    padding: 15,
+    borderTopEndRadius: Math.min(width, height) * 0.04,
+    borderTopStartRadius: Math.min(width, height) * 0.04,
+    paddingHorizontal: width * 0.06,
+    paddingVertical: height * 0.01,
     backgroundColor: 'white',
     borderTopWidth: 1,
     borderTopColor: '#e0e0e0',
     elevation: 50,
   },
-  checkOutButton: {
-    backgroundColor: '#0975b0',
-    padding: 15,
-    borderRadius: 5,
-  },
-  buttonText: {
-    fontSize: 16,
-    textAlign: 'center',
-    fontWeight: 'bold',
-    color: 'white',
-  },
+  // checkOutButton: {
+  //   backgroundColor: '#0975b0',
+  //   padding: 15,
+  //   borderRadius: 5,
+  // },
+  // buttonText: {
+  //   fontSize: 16,
+  //   textAlign: 'center',
+  //   fontWeight: 'bold',
+  //   color: 'white',
+  // },
   totalContainer: {
     borderRadius: 8,
     flexDirection: 'row',

@@ -11,12 +11,27 @@ import {
   FlatList,
 } from 'react-native';
 import IonIcon from 'react-native-vector-icons/Ionicons';
-import FeatherIcon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Link, useNavigation, useRoute} from '@react-navigation/native';
-import { CartContext } from '../../components/context/CartContext';
+import {CartContext} from '../../components/context/CartContext';
+import FooterButton from '../../components/button/Button';
 const {width, height} = Dimensions.get('window');
 
+const StarRating = ({rating}) => {
+  return (
+    <View style={styles.starContainer}>
+      {[1, 2, 3, 4, 5].map(star => (
+        <Icon
+          key={star}
+          name={star <= rating ? 'star' : 'star-o'}
+          size={16}
+          color={star <= rating ? '#FFD700' : '#E0E0E0'}
+        />
+      ))}
+    </View>
+  );
+};
 const BuyPage = () => {
   const {params} = useRoute();
   const navigation = useNavigation();
@@ -43,9 +58,15 @@ const BuyPage = () => {
     <View style={styles.container}>
       <ScrollView style={styles.scrollView}>
         <View style={styles.navbar}>
-          <Link to={'/Home'}>
-            <IonIcon name="arrow-back" style={styles.menuicon} />
-          </Link>
+          <View>
+            <IonIcon
+              name="arrow-back"
+              style={styles.menuicon}
+              onPress={() => {
+                navigation.goBack();
+              }}
+            />
+          </View>
           <Text style={styles.userIcon}>
             <IonIcon name="share-social" style={styles.userIcon} />
           </Text>
@@ -56,23 +77,11 @@ const BuyPage = () => {
         </View>
 
         <View>
-          <View>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                padding: Math.min(width, height) * 0.02,
-              }}>
-              {/* <TouchableOpacity style={{}}>
-                <FeatherIcon name="heart" size={24} color="#333333" />
-              </TouchableOpacity> */}
-            </View>
-          </View>
           <View style={styles.textTitleContain}>
             <Text style={styles.title}>{params?.item?.title}</Text>
             <Text style={styles.price}>${params?.item?.price}</Text>
           </View>
+          <StarRating rating={params.item.rating?.rate || 0} />
           <Text style={styles.description}>{params?.item?.description}</Text>
           <View>
             <View
@@ -116,13 +125,17 @@ const BuyPage = () => {
           </View>
         </View>
       </ScrollView>
-      <View style={styles.footer}>
-        <TouchableOpacity
-          style={styles.addToCartButton}
-          onPress={handleAddToCart}>
-          <Text style={styles.buttonText}>Add to Cart</Text>
-        </TouchableOpacity>
-      </View>
+      {/* Footer Button to Bottom of the page, Name: Add to Cart */}
+      <FooterButton
+        title={'Add to Card'}
+        color={'#0975b0'}
+        textColor={'white'}
+        onPress={handleAddToCart}
+      />
+
+      {/* <Modal animationType="slide" transparent={true} visible={true}>
+        <Text>Hello S</Text>
+      </Modal> */}
     </View>
   );
 };
@@ -212,6 +225,12 @@ const styles = StyleSheet.create({
 
     fontWeight: 'bold',
     color: 'white',
+  },
+  starContainer: {
+    flexDirection: 'row',
+    marginTop: height * 0.007,
+    marginHorizontal: width * 0.04,
+    alignItems: 'center',
   },
 });
 
