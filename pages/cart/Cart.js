@@ -197,7 +197,7 @@ const ProductCard = () => {
       {cartItems && (
         <FooterButton
           title={'Check Out'}
-          color={'#0975b0'}
+          color={'#4A90E2'}
           textColor={'white'}
           onPress={() => {
             navigation.navigate('CheckOut');
@@ -334,7 +334,7 @@ const styles = StyleSheet.create({
     elevation: 50,
   },
   // checkOutButton: {
-  //   backgroundColor: '#0975b0',
+  //   backgroundColor: '#4A90E2',
   //   padding: 15,
   //   borderRadius: 5,
   // },

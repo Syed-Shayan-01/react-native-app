@@ -128,7 +128,7 @@ const BuyPage = () => {
       {/* Footer Button to Bottom of the page, Name: Add to Cart */}
       <FooterButton
         title={'Add to Card'}
-        color={'#0975b0'}
+        color={'#4A90E2'}
         textColor={'white'}
         onPress={handleAddToCart}
       />
@@ -207,14 +207,14 @@ const styles = StyleSheet.create({
     elevation: 50,
   },
   addToCartButton: {
-    backgroundColor: '#0975b0',
+    backgroundColor: '#4A90E2',
     // alignContent: 'center',
     padding: 15,
     borderRadius: 5,
     width: width * 0.9,
   },
   //   flex: 1,
-  //   backgroundColor: '#0975b0',
+  //   backgroundColor: '#4A90E2',
   //   padding: 15,
   //   borderRadius: 5,
   //   alignItems: 'center',

@@ -90,7 +90,7 @@ const ProductPage = () => {
     return (
       <ActivityIndicator
         size="extraLarge"
-        color="#0975b0"
+        color="#4A90E2"
         style={{marginVertical: width * 0.7}} // Adjust margin based on your layout
       />
     );
@@ -276,7 +276,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: height * 0.03,
     left: width * 0.04,
-    backgroundColor: '#0975b0',
+    backgroundColor: '#4A90E2',
     paddingHorizontal: width * 0.015,
     paddingVertical: height * 0.005,
     borderRadius: 3,
@@ -318,7 +318,7 @@ const styles = StyleSheet.create({
   },
   originalPrice: {
     fontSize: Math.min(width, height) * 0.035,
-    color: '#0975b0',
+    color: '#4A90E2',
     textDecorationLine: 'line-through',
   },
   starContainer: {

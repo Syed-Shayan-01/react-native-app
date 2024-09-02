@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   View,
   Text,
@@ -6,140 +7,191 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
-  ScrollView,
+  SafeAreaView,
+  StatusBar,
 } from 'react-native';
-import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
+
 const Profile = () => {
+  const insets = useSafeAreaInsets();
+
   const Data = [
     {
       id: 1,
       name: 'My Orders',
-      details: 'Already have 2 roders',
+      details: 'Already have 2 orders',
+      icon: 'shopping-cart',
     },
     {
       id: 2,
       name: 'Shipping Address',
-      details: '3 adressess',
+      details: '3 addresses',
+      icon: 'map-marker',
     },
     {
       id: 3,
       name: 'Payment Methods',
       details: '749832947',
+      icon: 'credit-card',
     },
     {
       id: 4,
       name: 'Help & Support',
       details: 'Contact Us',
+      icon: 'question-circle',
     },
   ];
+
+  const renderItem = ({ item }) => (
+    <TouchableOpacity style={styles.listItem}>
+      <View style={styles.listItemContent}>
+        <Icon name={item.icon} style={styles.listItemIcon} />
+        <View style={styles.listItemText}>
+          <Text style={styles.listItemTitle}>{item.name}</Text>
+          <Text style={styles.listItemDetails}>{item.details}</Text>
+        </View>
+      </View>
+      <Icon name="angle-right" style={styles.listItemArrow} />
+    </TouchableOpacity>
+  );
+
   return (
-    <>
-      <View style={styles.navbar}>
-        <TouchableOpacity>
-          <Icon name="search" style={styles.menuicon} />
+    <SafeAreaView style={[styles.container, { paddingTop: insets.top }]}>
+      <StatusBar barStyle="dark-content" backgroundColor="#F0F4F8" />
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>My Profile</Text>
+        <TouchableOpacity style={styles.searchButton}>
+          <Icon name="search" style={styles.searchIcon} />
         </TouchableOpacity>
       </View>
-      <View>
-        <Text
-          style={{
-            fontSize: Math.min(width, height) * 0.09,
-            fontWeight: 'bold',
-            color: '#333333',
-            marginVertical: height * 0.02,
-            marginHorizontal: width * 0.05,
-          }}>
-          My Profile
-        </Text>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-            alignItems: 'center',
-            marginRight: width * 0.05,
-            marginVertical: height * 0.015,
-          }}>
-          <View>
-            <Image
-              style={{
-                width: 100,
-                height: 100,
-                borderRadius: 100,
-                borderWidth: 1,
-                borderColor: '#666',
-              }}
-              source={require('../../public/images/profile.jpg')}
-            />
-          </View>
-          <View>
-            <Text
-              style={{
-                fontWeight: 'bold',
-                fontSize: Math.min(width, height) * 0.06,
-                color: '#333333',
-              }}>
-              Syed Shayan
-            </Text>
-            <Text style={{color: '#666666'}}>shayansyed712@gmail.com</Text>
-          </View>
+
+      <View style={styles.profileSection}>
+        <Image
+          style={styles.profileImage}
+          source={require('../../public/images/profile.jpg')}
+        />
+        <View style={styles.profileInfo}>
+          <Text style={styles.profileName}>Syed Shayan</Text>
+          <Text style={styles.profileEmail}>shayansyed712@gmail.com</Text>
         </View>
       </View>
 
       <FlatList
         data={Data}
-        renderItem={({item}) => {
-          return (
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginTop: height * 0.01,
-                marginHorizontal: width * 0.05,
-                borderTopColor: '#666666',
-                borderTopWidth: 1,
-                paddingVertical: height * 0.02,
-              }}>
-              <View>
-                <Text
-                  style={{
-                    fontSize: Math.min(width, height) * 0.05,
-                    fontWeight: 'bold',
-                    color: '#333333',
-                  }}>
-                  {item.name}
-                </Text>
-                <Text style={{color: '#666666'}}>{item.details}</Text>
-              </View>
-              <View>
-                <Icon
-                  style={{
-                    fontSize: Math.min(width, height) * 0.05,
-                    fontWeight: 'bold',
-                    color: '#333333',
-                  }}
-                  name={'angle-right'}
-                />
-              </View>
-            </View>
-          );
-        }}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id.toString()}
+        style={styles.list}
+        ItemSeparatorComponent={() => <View style={styles.separator} />}
       />
-    </>
+    </SafeAreaView>
   );
 };
 
-export default Profile;
 const styles = StyleSheet.create({
-  navbar: {
-    paddingHorizontal: width * 0.06,
-    paddingVertical: height * 0.06,
+  container: {
+    flex: 1,
+    backgroundColor: '#F0F4F8',
   },
-  menuicon: {
-    textAlign: 'right',
-    fontSize: 20,
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: width * 0.05,
+    paddingVertical: height * 0.02,
+  },
+  headerTitle: {
+    fontSize: Math.min(width, height) * 0.07,
+    fontWeight: 'bold',
+    color: '#333333',
+  },
+  searchButton: {
+    padding: 10,
+  },
+  searchIcon: {
+    fontSize: 24,
     color: '#666666',
   },
+  profileSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: width * 0.05,
+    paddingVertical: height * 0.02,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 15,
+    marginHorizontal: width * 0.05,
+    marginBottom: height * 0.02,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  profileImage: {
+    width: Math.min(width, height) * 0.2,
+    height: Math.min(width, height) * 0.2,
+    borderRadius: Math.min(width, height) * 0.1,
+    borderWidth: 3,
+    borderColor: '#4A90E2',
+  },
+  profileInfo: {
+    marginLeft: width * 0.05,
+  },
+  profileName: {
+    fontWeight: 'bold',
+    fontSize: Math.min(width, height) * 0.05,
+    color: '#333333',
+  },
+  profileEmail: {
+    color: '#666666',
+    fontSize: Math.min(width, height) * 0.03,
+  },
+  list: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    paddingTop: height * 0.02,
+  },
+  listItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: height * 0.02,
+    paddingHorizontal: width * 0.05,
+  },
+  listItemContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  listItemIcon: {
+    fontSize: Math.min(width, height) * 0.06,
+    color: '#4A90E2',
+    width: width * 0.1,
+  },
+  listItemText: {
+    marginLeft: width * 0.03,
+  },
+  listItemTitle: {
+    fontSize: Math.min(width, height) * 0.04,
+    fontWeight: 'bold',
+    color: '#333333',
+  },
+  listItemDetails: {
+    color: '#666666',
+    fontSize: Math.min(width, height) * 0.03,
+  },
+  listItemArrow: {
+    fontSize: Math.min(width, height) * 0.05,
+    color: '#666666',
+  },
+  separator: {
+    height: 1,
+    backgroundColor: '#E0E0E0',
+    marginLeft: width * 0.15,
+  },
 });
+
+export default Profile;

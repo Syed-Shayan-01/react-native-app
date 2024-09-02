@@ -84,7 +84,7 @@ const HomePage = () => {
     return (
       <ActivityIndicator
         size="large"
-        color="#0975b0"
+        color="#4A90E2"
         style={{marginVertical: width * 0.7}} // Adjust margin based on your layout
       />
     );
@@ -95,7 +95,7 @@ const HomePage = () => {
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         <Text style={{color: 'red', fontSize: 18}}>{error.message}</Text>
         <TouchableOpacity onPress={() => setLoading(true)}>
-          <Text style={{color: '#0975b0', marginTop: 10}}>Retry</Text>
+          <Text style={{color: '#4A90E2', marginTop: 10}}>Retry</Text>
         </TouchableOpacity>
       </View>
     );
@@ -276,7 +276,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     height: 40,
-    borderColor: '#0975b0',
+    borderColor: '#4A90E2',
     borderWidth: 1.2,
     borderRadius: 7,
     paddingHorizontal: width * 0.03,
@@ -344,14 +344,14 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#0975b0',
+    color: '#4A90E2',
   },
   buttons: {
     justifyContent: 'center',
     padding: 10,
   },
   button: {
-    backgroundColor: '#0975b0',
+    backgroundColor: '#4A90E2',
     paddingVertical: height * 0.01,
     paddingHorizontal: width * 0.03,
     marginVertical: height * 0.006,

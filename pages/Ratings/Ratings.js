@@ -264,7 +264,7 @@ const ReviewPage = () => {
           <FooterButton
             title={'Submit Button'}
             onPress={() => handleSubmit()}
-            color={'#0975b0'}
+            color={'#4A90E2'}
             textColor={'white'}
           />
         </View>
@@ -376,7 +376,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: height * 0.05,
     right: width * 0.05,
-    backgroundColor: '#0975b0',
+    backgroundColor: '#4A90E2',
     padding: Math.min(width, height) * 0.035,
     borderRadius: 20,
     flexDirection: 'row',
@@ -458,7 +458,7 @@ const styles = StyleSheet.create({
     padding: Math.min(width, height) * 0.04,
     elevation: 2,
     alignSelf: 'center',
-    backgroundColor: '#0975b0',
+    backgroundColor: '#4A90E2',
   },
   imageUploadBtnIconText: {
     color: 'white',

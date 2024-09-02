@@ -36,7 +36,7 @@
 // const styles = StyleSheet.create({
 //   container: {
 //     flex: 1,
-//     backgroundColor: '#0975b0',
+//     backgroundColor: '#4A90E2',
 //   },
 //   content: {
 //     flex: 1,
@@ -59,13 +59,13 @@
 //   title: {
 //     fontSize: Math.min(width, height) * 0.09,
 //     fontWeight: 'bold',
-//     color: '#0975b0',
+//     color: '#4A90E2',
 //     textAlign: 'center',
 //   },
 //   titleTwo: {
 //     fontSize: Math.min(width, height) * 0.07,
 //     fontWeight: '600',
-//     color: '#0975b0',
+//     color: '#4A90E2',
 //     textAlign: 'center',
 //     marginTop: -height * 0.01,
 //   },
@@ -86,7 +86,7 @@
 //   },
 //   btnTxt: {
 //     fontSize: Math.min(width, height) * 0.08,
-//     color: '#0975b0',
+//     color: '#4A90E2',
 //   },
 // });
 
@@ -241,10 +241,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   activeIndicator: {
-    backgroundColor: '#0975b0',
+    backgroundColor: '#4A90E2',
   },
   btnRight: {
-    backgroundColor: '#0975b0',
+    backgroundColor: '#4A90E2',
     width: Math.min(width, height) * 0.15,
     height: Math.min(width, height) * 0.15,
     borderRadius: Math.min(width, height) * 0.075,
@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
   },
   btnLeft: {
-    backgroundColor: '#0975b0',
+    backgroundColor: '#4A90E2',
     width: Math.min(width, height) * 0.15,
     height: Math.min(width, height) * 0.15,
     borderRadius: Math.min(width, height) * 0.075,

@@ -62,7 +62,7 @@ export default function CheckoutScreen() {
                 name={'home'}
                 size={17}
                 style={{
-                  color: '#0975b0',
+                  color: '#4A90E2',
                   fontSize: Math.min(width, height) * 0.05,
                 }}
               />
@@ -260,7 +260,7 @@ export default function CheckoutScreen() {
         title="SUBMIT ORDER"
         onPress={() => handleSubmitOrder()}
         // Optionally, you can customize colors:
-        color="#0975b0"
+        color="#4A90E2"
         textColor="white"
       />
 
@@ -329,7 +329,7 @@ const styles = StyleSheet.create({
   changeTxt: {
     fontSize: Math.min(width, height) * 0.032,
     fontWeight: '800',
-    color: '#0975b0',
+    color: '#4A90E2',
     letterSpacing: 0.3,
   },
 
