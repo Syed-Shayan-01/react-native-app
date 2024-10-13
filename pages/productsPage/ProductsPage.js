@@ -1,4 +1,4 @@
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {Link, useNavigation, useRoute} from '@react-navigation/native';
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import {
@@ -31,18 +31,32 @@ const StarRating = ({rating}) => {
 };
 
 const ProductItem = ({item}) => {
+  const [click, setClick] = useState(false);
+  const handleClick = () => {
+    if (click == false) {
+      setClick(true);
+    } else {
+      setClick(false);
+    }
+  };
   const navigation = useNavigation();
   return (
-    <TouchableOpacity style={styles.productItem}>
+    <View style={styles.productItem}>
       <Image source={{uri: item.image}} style={styles.productImage} />
       {item.discount && (
         <View style={styles.discountBadge}>
           <Text style={styles.discountText}>{item.discount}</Text>
         </View>
       )}
-      {/* <TouchableOpacity style={styles.favoriteButton}>
-      <Icon name="heart-o" size={24} color="#E0E0E0" />
-    </TouchableOpacity> */}
+      <TouchableOpacity
+        style={styles.favoriteButton}
+        onPress={() => handleClick()}>
+        {click ? (
+          <Icon name="heart" size={24} color="#4A90E2"/>
+        ) : (
+          <Icon name="heart-o" size={24} color="#666" />
+        )}
+      </TouchableOpacity>
       <Text style={styles.brandName}>{item.category}</Text>
       <Text
         style={styles.productName}
@@ -60,7 +74,7 @@ const ProductItem = ({item}) => {
         <StarRating rating={item.rating.rate} />
         <Text style={styles.reviewCount}>({item.rating.count})</Text>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 
@@ -178,7 +192,7 @@ const ProductPage = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Navbar titleName={'Products'} LinkText={'/Home'}/>
+      <Navbar titleName={'Products'} LinkText={'/Home'} />
       <View style={styles.categoryContainer}>
         {['T-shirts', 'Crop tops', 'Blouses', 'Shirts'].map(category => (
           <TouchableOpacity key={category} style={styles.categoryButton}>
@@ -288,10 +302,12 @@ const styles = StyleSheet.create({
   },
   favoriteButton: {
     position: 'absolute',
-    top: 0,
-    right: 0,
+    top: height * 0.21,
+    right: width * 0.02,
     borderRadius: 100,
     padding: Math.min(width, height) * 0.03,
+    backgroundColor: '#fff',
+    elevation: 5,
   },
   brandName: {
     marginTop: height * 0.01,
@@ -301,8 +317,8 @@ const styles = StyleSheet.create({
   },
   productName: {
     marginTop: height * 0.003,
-    fontSize: Math.min(width, height) * 0.05,
-    fontWeight: 'bold',
+    fontSize: Math.min(width, height) * 0.045,
+    fontWeight: '700',
     color: '#333333',
   },
   priceContainer: {

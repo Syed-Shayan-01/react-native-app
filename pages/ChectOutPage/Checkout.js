@@ -258,7 +258,7 @@ export default function CheckoutScreen() {
       </ScrollView>
       <FooterButton
         title="SUBMIT ORDER"
-        onPress={() => handleSubmitOrder()}
+        // onPress={() => handleSubmitOrder()}
         // Optionally, you can customize colors:
         color="#4A90E2"
         textColor="white"
